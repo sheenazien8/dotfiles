@@ -1,0 +1,50 @@
+{
+  "phpactor.enable": true,
+  "phpactor.path": "/usr/local/bin/phpactor",
+  "languageserver": {
+    "phpactor": {
+      "command": "phpactor",
+      "args": [
+        "language-server"
+      ],
+      "trace.server": "verbose",
+      "filetypes": [
+        "php",
+        "blade.php"
+      ]
+    }
+  },
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "vue",
+    "javascript",
+    "graphql",
+    "html",
+    "yaml",
+    "json",
+    "python",
+    "php"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "tsserver.npm": "~/.nvm/versions/node/v12.16.2/bin/npm",
+  "javascript.showUnused": false,
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "~/.config/nvim/utils/snips"
+  ],
+  "explorer.width": 30,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false,
+  "explorer.keyMappings.global": {
+    "<cr>": [
+      "expandable?",
+      "expand",
+      "open"
+    ],
+    "v": "open:vsplit"
+  },
+  "explorer.position": "right",
+  "python.jediEnabled": false
+}
