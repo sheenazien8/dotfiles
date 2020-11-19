@@ -187,7 +187,8 @@ alias testing="./vendor/phpunit/phpunit/phpunit"
 alias i3config="vim ~/.config/i3/config"
 alias vimdir="cd ~/.config/nvim"
 alias perlight="sudo chmod a+rw /sys/class/backlight/intel_backlight/brightness"
-source /home/sheenazien/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/sheenazien/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+source /home/sheenazien/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 export PATH=~/.config/composer/vendor/bin:$PATH
 
 # if [ -z "$TMUX" ]; then
