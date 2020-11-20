@@ -2,10 +2,10 @@
 ## Preparation
   * sudo apt-get install -y stow
   * stow 
-   ```
-   Output
-   stow (GNU Stow) version 2.3.1
-   ```
+    ```
+    Output
+    stow (GNU Stow) version 2.3.1
+    ```
 ## Installation
   * sudo chmod +x makelinks
   * ./makelinks
