@@ -1,5 +1,5 @@
 {
-  "phpactor.enable": true,
+  "phpactor.enable": false,
   "phpactor.path": "/usr/local/bin/phpactor",
   "languageserver": {
     "phpactor": {

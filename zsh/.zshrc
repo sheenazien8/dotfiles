@@ -15,7 +15,7 @@ export ZSH="/home/sheenazien/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_THEME="ys"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -75,7 +75,7 @@ ZSH_THEME="ys"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -115,6 +115,12 @@ composer-link() {
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+alias l='lsd -l'
+alias la='lsd -a'
+alias ls='lsd'
+alias ll='lsd'
+alias lla='lsd -la'
+alias lt='lsd --tree'
 alias vim="nvim"
 alias nvimdir="cd ~/.config/nvim/"
 alias luaconfig="vim ~/.config/awesome/rc.lua"
@@ -142,6 +148,7 @@ alias zien-vps="ssh zien-vps@172.104.169.95"
 alias pz="php zitech"
 alias yrw="yarn run watch"
 alias yrd="yarn run dev"
+alias yrs="yarn run start"
 alias komuri-dev-server="ssh forge@172.104.39.31"
 alias kooc-server="ssh forge@172.104.165.184"
 alias new-kooc-server="ssh root@156.67.218.222 -p 22"
@@ -179,6 +186,11 @@ alias testing="./vendor/phpunit/phpunit/phpunit"
 alias i3config="vim ~/.config/i3/config"
 alias vimdir="cd ~/.config/nvim"
 alias perlight="sudo chmod a+rw /sys/class/backlight/intel_backlight/brightness"
+alias capstoesc="/usr/bin/setxkbmap -option 'caps:swapescape'"
+alias zshtheme="~/.oh-my-zsh/themes"
 export PATH=~/.config/composer/vendor/bin:$PATH
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.yarn/bin
+
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh

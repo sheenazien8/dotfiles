@@ -25,8 +25,8 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 10
-    y: 10
+    x: 5
+    y: 5
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
@@ -53,7 +53,7 @@ window:
   startup_mode: Maximized
 
   # Window title
-  title: Allah is Always Watching
+  title: Alacritty
 
   # Window class (Linux/BSD only):
   class:
@@ -65,33 +65,27 @@ window:
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
   # Set this to `None` to use the default theme variant.
-  #gtk_theme_variant: None
+  gtk_theme_variant: dark
 # Font configuration (changes require restart)
 font:
   # The normal (roman) font face to use.
   # Style can be specified to pick a specific face.
   normal:
-    # family: "Hack"
-    family: "JetBrainsMono NF"
-    # family: "Source Code Pro"
-    style: Italic
+    family: "JetBrains Mono"
+    style: Bold
 
   # The bold font face
   bold:
-    # family: "Hack"
-    family: "JetBrainsMono NF"
-    # family: "Source Code Pro"
+    family: "JetBrains Mono"
     style: Bold
 
   # The italic font face
   italic:
-    # family: "Hack"
-    family: "JetBrainsMono NF"
-    # family: "Source Code Pro"
+    family: "JetBrains Mono"
     style: Italic
 
   # Point size of the font
-  size: 11.0
+  size: 11.5
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -134,35 +128,35 @@ draw_bold_text_with_bright_colors: false
 colors:
   # Default colors
   primary:
-    background: '#002b36' # base03
-    foreground: '#839496' # base0
+    background: '#181818'
+    foreground: '#d8d8d8'
 
-  # Cursor colors
+  # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '#002b36' # base03
-    cursor: '#839496' # base0
+    text: '#d8d8d8'
+    cursor: '#d8d8d8'
 
   # Normal colors
   normal:
-    black: '#073642' # base02
-    red: '#dc322f' # red
-    green: '#859900' # green
-    yellow: '#b58900' # yellow
-    blue: '#268bd2' # blue
-    magenta: '#d33682' # magenta
-    cyan: '#2aa198' # cyan
-    white: '#eee8d5' # base2
+    black: '#181818'
+    red: '#ab4642'
+    green: '#a1b56c'
+    yellow: '#f7ca88'
+    blue: '#7cafc2'
+    magenta: '#ba8baf'
+    cyan: '#86c1b9'
+    white: '#d8d8d8'
 
   # Bright colors
   bright:
-    black: '#002b36' # base03
-    red: '#cb4b16' # orange
-    green: '#586e75' # base01
-    yellow: '#657b83' # base00
-    blue: '#839496' # base0
-    magenta: '#6c71c4' # violet
-    cyan: '#93a1a1' # base1
-    white: '#fdf6e3' # base3
+    black: '#585858'
+    red: '#ab4642'
+    green: '#a1b56c'
+    yellow: '#f7ca88'
+    blue: '#7cafc2'
+    magenta: '#ba8baf'
+    cyan: '#86c1b9'
+    white: '#f8f8f8'
 
 #visual_bell:
 #  animation: EaseOutExpo
@@ -172,8 +166,8 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.00
-# background_opacity: 0.95
+# background_opacity: 1.00
+background_opacity: 0.85
 #selection:
 #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 # When set to `true`, selected text will be copied to the primary clipboard.
