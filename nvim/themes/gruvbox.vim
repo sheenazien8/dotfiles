@@ -8,6 +8,6 @@ colorscheme gruvbox
 let g:php_var_selector_is_identifier = 1
 
 if (has("termguicolors"))
-    set termguicolors
+    " set termguicolors
     hi LineNr ctermbg=NONE guibg=NONE
 endif

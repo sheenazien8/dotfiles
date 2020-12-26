@@ -1,4 +1,19 @@
 {
+  "phpactor.enable": false,
+  "phpactor.path": "/usr/local/bin/phpactor",
+  "languageserver": {
+    "phpactor": {
+      "command": "phpactor",
+      "args": [
+        "language-server"
+      ],
+      "trace.server": "verbose",
+      "filetypes": [
+        "php",
+        "blade.php"
+      ]
+    }
+  },
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
