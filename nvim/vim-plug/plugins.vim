@@ -32,24 +32,27 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'yegappan/mru'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vimwiki/vimwiki'
 Plug 'preservim/tagbar'
 
+" Marketplace intelisense
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " ColorSchme
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
+Plug 'ayu-theme/ayu-vim'
 
 " PHP
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
@@ -58,6 +61,7 @@ Plug 'phpactor/ncm2-phpactor'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-path'
 Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+
 " Plug 'arnaud-lb/vim-php-namespace'
 Plug 'jwalton512/vim-blade'
 Plug 'StanAngeloff/php.vim'

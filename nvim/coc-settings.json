@@ -31,5 +31,6 @@
     "v": "open:vsplit"
   },
   "explorer.position": "right",
-  "python.jediEnabled": false
+  "python.jediEnabled": false,
+  "tailwindCSS.enable" : true
 }
