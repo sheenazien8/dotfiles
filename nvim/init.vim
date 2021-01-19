@@ -10,7 +10,7 @@ source $HOME/.config/nvim/modules/ale.vim
 source $HOME/.config/nvim/modules/dog-generate.vim
 source $HOME/.config/nvim/modules/php-doc.vim
 " source $HOME/.config/nvim/modules/php-namespace.vim
-source $HOME/.config/nvim/modules/phpactor.vim
+" source $HOME/.config/nvim/modules/phpactor.vim
 " source $HOME/.config/nvim/modules/syntastic.vim
 " source $HOME/.config/nvim/modules/nerdrw.vim
 source $HOME/.config/nvim/modules/airline.vim

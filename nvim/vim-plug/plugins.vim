@@ -56,11 +56,11 @@ Plug 'ayu-theme/ayu-vim'
 
 " PHP
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
-Plug 'ncm2/ncm2'
-Plug 'phpactor/ncm2-phpactor'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-path'
-Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+" Plug 'ncm2/ncm2'
+" Plug 'phpactor/ncm2-phpactor'
+" Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2-path'
+" Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 
 " Plug 'arnaud-lb/vim-php-namespace'
 Plug 'jwalton512/vim-blade'

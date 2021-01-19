@@ -76,8 +76,6 @@ let g:javascript_plugin_jsdoc = 1
 " test javascript
 autocmd FileType javascript map <buffer> <F10> :exec '!yarn run test'<CR>
 
-" jump to definition
-autocmd FileType javascript map <buffer> <F12> :call CocActionAsync("jumpDefinition")<CR>
 
 "tagbar
 nmap <F8> :TagbarToggle<CR>
