@@ -35,3 +35,59 @@ snippet docs "Generate Docs Description"
 |
 */
 endsnippet
+
+snippet bto "BelongsTo Snippet"
+/**
+ * Get the $1 BelongsTo relations.
+ *
+ * @return BelongsTo
+ */
+public function $1(): BelongsTo$4
+{
+	return $this->belongsTo($2, $3);
+}
+endsnippet
+snippet hmy "HasMany Snippet"
+/**
+ * Get the $1 hasMany relations.
+ *
+ * @return HasMany
+ */
+public function $1(): HasMany$4
+{
+	return $this->hasMany($2, $3);
+}
+endsnippet
+snippet hso "HasOne Snippet"
+/**
+ * Get the $1 hasOne relations.
+ *
+ * @return HasOne
+ */
+public function $1(): HasOne$4
+{
+	return $this->hasOne($2, $3);
+}
+endsnippet
+snippet accessor "Create Accessor"
+/**
+ * Get the $5.
+ *
+ * @return $3
+ */
+public function get${1:FirstName}Attribute($2): $3
+{
+	return $4;
+}
+endsnippet
+snippet mutator "Create Mutator"
+/**
+ * Set the $5.
+ *
+ * @return $3
+ */
+public function set${1:FirstName}Attribute($2): $3
+{
+	$4;
+}
+endsnippet

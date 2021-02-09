@@ -32,6 +32,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'yegappan/mru'
+Plug 'liuchengxu/vim-which-key'
 " Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-projectionist'
@@ -39,12 +40,14 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'airblade/vim-rooter'
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 Plug 'jiangmiao/auto-pairs'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vimwiki/vimwiki'
 Plug 'preservim/tagbar'
+Plug 'tobyS/vmustache'
 
 " Marketplace intelisense
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -53,14 +56,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+" Global Language
+Plug 'w0rp/ale'
+" Plug ''
 
 " PHP
-Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
+Plug 'tobyS/pdv'
+Plug 'alvan/vim-php-manual', {'for': 'php'}
+" Plug 'adoy/vim-php-refactoring-toolbox'
 " Plug 'ncm2/ncm2'
 " Plug 'phpactor/ncm2-phpactor'
 " Plug 'roxma/nvim-yarp'
 " Plug 'ncm2/ncm2-path'
-" Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
+Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': ':call phpactor#Update()'}
 
 " Plug 'arnaud-lb/vim-php-namespace'
 Plug 'jwalton512/vim-blade'

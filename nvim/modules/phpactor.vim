@@ -1,51 +1,56 @@
-au BufWritePost *.php silent! !eval '[ -f ".git/hooks/ctags" ] && .git/hooks/ctags' &
+" context-aware menu with all functions (CTRL-ALT-m)
+nnoremap <c-m-m> :call phpactor#ContextMenu()<cr>
 
-" python
-autocmd FileType python map <buffer> <F9> :exec '!python3' shellescape(@%, 1)<CR>
-autocmd FileType python imap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<CR>
-" PHP
-autocmd FileType php map <buffer> <F9> :exec '!php' shellescape(@%, 1)<CR>
-autocmd FileType php imap <buffer> <F9> :exec '!php' shellescape(@%, 1)<CR>
-autocmd FileType php set iskeyword+=$
-" feature test
-autocmd FileType php map <buffer> <F10> :exec '!./vendor/phpunit/phpunit/phpunit'<CR>
-autocmd FileType php imap <buffer> <F10> :exec '!'./vendor/phpunit/phpunit/phpunit<CR>
-autocmd FileType php map <buffer> <F11> :!php artisan test<CR>
+" nnoremap gd :call phpactor#GotoDefinition()<CR>
+" nnoremap gr :call phpactor#FindReferences()<CR>
 
-" featur test with parameters
-autocmd FileType php command! -nargs=1 Tf execute "!./vendor/phpunit/phpunit/phpunit --filter" string(<q-args>)
+" Extract method from selection
+vmap <silent><Leader>rem :<C-U>call phpactor#ExtractMethod()<CR>
+" extract variable
+vnoremap <silent><Leader>ree :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+nnoremap <silent><Leader>ree :call phpactor#ExtractExpression(v:false)<CR>
+" extract interface
+nnoremap <silent><Leader>rei :call phpactor#ClassInflect()<CR>
 
-command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
-map <c-s> <esc>:w<cr>:Silent php-cs-fixer fix %:p --level=symfony<cr>
+let g:phpactor_executable = '~/.config/nvim/plugged/phpactor/bin/phpactor'
 
-function! TransFormFile()
-    call phpactor#Transform()
-    call feedkeys('a',  'n')
+function! PHPModify(transformer)
+    :update
+    let l:cmd = "silent !".g:phpactor_executable." class:transform ".expand('%').' --transform='.a:transformer
+    execute l:cmd
 endfunction
 
-autocmd FileType php inoremap <buffer> <F1>  <Esc>:call TransFormFile()<CR>
-autocmd FileType php noremap <buffer> <F1>  :PhpactorTransform<CR>
-
-autocmd FileType php map <buffer> <F2> :PhpactorContextMenu<CR>
-
-autocmd FileType php map <buffer> <F3> :PhpactorNavigate<CR>
-
-autocmd FileType php map <buffer> <F4> :PhpactorImportMissingClasses<CR>
-
-function! IPhpInsertUse()
-    call phpactor#ImportClass()
-    call feedkeys('a',  'n')
+nnoremap <leader>rcc :call PhpConstructorArgumentMagic()<cr>
+function! PhpConstructorArgumentMagic()
+    " update phpdoc
+    if exists("*UpdatePhpDocIfExists")
+        normal! gg
+        /__construct
+        normal! n
+        :call UpdatePhpDocIfExists()
+        :w
+    endif
+    :call PHPModify("complete_constructor")
 endfunction
-autocmd FileType php inoremap <buffer> <F5>  <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <buffer> <F5>  :PhpactorImportClass<CR>
 
+nnoremap <leader>ric :call PHPModify("implement_contracts")<cr>
 
-function! IPhpExpandClass()
-    call phpactor#ClassExpand()
-    call feedkeys('a', 'n')
+nnoremap <leader>raa :call PHPModify("add_missing_properties")<cr>
+
+nnoremap <leader>rmc :call PHPMoveClass()<cr>
+function! PHPMoveClass()
+    :w
+    let l:oldPath = expand('%')
+    let l:newPath = input("New path: ", l:oldPath)
+    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+    execute "bd ".l:oldPath
+    execute "e ". l:newPath
 endfunction
-autocmd FileType php inoremap <buffer> <F6>  <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <buffer> <F6>  :PhpactorClassExpand<CR>
 
-autocmd FileType php map <buffer> <F12> :PhpactorGotoDefinition<CR>
-
+nnoremap <leader>rmd :call PHPMoveDir()<cr>
+function! PHPMoveDir()
+    :w
+    let l:oldPath = input("old path: ", expand('%:p:h'))
+    let l:newPath = input("New path: ", l:oldPath)
+    execute "!".g:phpactor_executable." class:move ".l:oldPath.' '.l:newPath
+endfunction

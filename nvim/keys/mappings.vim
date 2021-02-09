@@ -52,9 +52,6 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <Leader>o o<Esc>^Da
-nnoremap <Leader>O O<Esc>^Da
-
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
 

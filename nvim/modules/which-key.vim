@@ -8,7 +8,6 @@ let g:which_key_map =  {}
 let g:which_key_sep = '→'
 " set timeoutlen=100
 
-
 " Not a fan of floating windows for this
 let g:which_key_use_floating_win = 0
 
@@ -24,15 +23,39 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
   \| autocmd BufLeave <buffer> set laststatus=2 noshowmode ruler
 
 " Single mappings
-let g:which_key_map['/'] = [ '<Plug>NERDCommenterToggle'  , 'comment' ]
-let g:which_key_map['e'] = [ ':CocCommand explorer'       , 'explorer' ]
-let g:which_key_map['f'] = [ ':Files'                     , 'search files' ]
+let g:which_key_map['/'] = [ ':Commentary'  , 'comment' ]
+let g:which_key_map['p'] = [ ':Files'                     , 'search files' ]
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
-let g:which_key_map['r'] = [ ':Ranger'                    , 'ranger' ]
-let g:which_key_map['S'] = [ ':Startify'                  , 'start screen' ]
-let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
 let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
-let g:which_key_map['z'] = [ 'Goyo'                       , 'zen' ]
+let g:which_key_map['`'] = [ ':botright 15 sp term://zsh'                       , 'terminal' ]
+let g:which_key_map['d'] = [ ':call PhpDocSingle()'                       , 'dog-generate' ]
+let g:which_key_map['g'] = [ ':G'                       , 'Stag Edited Files' ]
+let g:which_key_map[' '] = [ ':nohlsearch'                       , 'No Highlight Search' ]
+let g:which_key_map['f'] = [ ':CocCommand explorer --preset floating' , 'Floating file in explorer' ]
+let g:which_key_map['k'] = [ '' , 'Open PHP Manual' ]
+
+" r for phpactor
+let g:which_key_map.r = {
+      \ 'name' : '+phpactor' ,
+      \ 'a' : [':call phpactor#ContextMenu()/'     , 'Context Menu'],
+      \ 'cc' : [':call PhpConstructorArgumentMagic()/'     , 'Fix Construction By Magic'],
+      \ 'cl' : [':call phpactor#ClassNew()/', 'Class New'],
+      \ 't' : [':PhpactorTransform', 'Transform File'],
+      \ 'ee' : [':call phpactor#ExtractExpression(v:false)/'     , 'Extract Expression'],
+      \ 'ei' : [':call phpactor#ClassInflect()/'     , 'Clas Inflect'],
+      \ 'em' : [':call phpactor#ExtractMethod()/'     , 'Extract Method'],
+      \ 'fn' : [':PHPModify("fix_namespace_class_name")', 'Fix Namespace Class'],
+      \ 'fr' : [':PhpactorFindReferences', 'Find References'],
+      \ 'ga' : [':PhpactorGenerateAccessors', 'Generate Accessor'],
+      \ 'ic' : [':call PHPModify("implement_contracts")/'     , 'Implements Contracts'],
+      \ 'im' : [':PhpactorImportMissingClasses', 'Import Missing Class'],
+      \ 'is' : [':PhpactorImportClass', 'Import Class'],
+      \ 'mc' : [':call PHPMoveClass()/', 'Move Class'],
+      \ 'md' : [':call PHPMoveDir()/', 'Move Dir'],
+      \ 'mp' : [':call PHPModify("add_missing_properties")/'     , 'Add Missing Property'],
+      \ 'nv' : [':PhpactorNavigate', 'Navigate'],
+      \ 're' : [':PHPModify("replace_references")', 'Replace References'],
+      \}
 
 " s is for search
 let g:which_key_map.s = {
