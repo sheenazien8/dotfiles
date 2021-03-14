@@ -20,17 +20,13 @@ inoremap <c-u> <ESC>viwUi
 nnoremap <c-u> viwU<Esc>
 
 " " TAB in general mode will move to text buffer
-" nnoremap <TAB> :bnext<CR>
-" " SHIFT-TAB will go back
-" nnoremap <S-TAB> :bprevious<CR>
+nnoremap <TAB> :bnext<CR>
+" SHIFT-TAB will go back
+nnoremap <S-TAB> :bprevious<CR>
 
-map <C-PageUp> :bp<CR>
-map <C-PageDown> :bn<CR>
+" map <C-PageUp> :bp<CR>
+" map <C-PageDown> :bn<CR>
 
-" Alternate way to save
-nnoremap <C-s> :w<CR>
-" Alternate way to quit
-nnoremap <C-Q> :wq!<CR>
 " Use control-c instead of escape
 nnoremap <C-c> <Esc>
 " <TAB>: completion.

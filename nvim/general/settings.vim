@@ -37,8 +37,7 @@ set nowritebackup                       " This is recommended by coc
 set updatetime=300                      " Faster completion
 " Time in milliseconds to wait for a mapped sequence to complete,
 " see https://goo.gl/vHvyu8 for more info
-set timeoutlen=100
-" set timeoutlen=500
+set timeoutlen=500
 set formatoptions-=cro                  " Stop newline continution of comments
 set wildmenu
 set path+=**

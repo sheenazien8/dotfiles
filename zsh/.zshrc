@@ -112,7 +112,7 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting z composer fzf-tab fzf)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting z composer fzf-tab fzf laravel)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -202,6 +202,7 @@ alias php73="sudo update-alternatives --set php /usr/bin/php7.3"
 alias php72="sudo update-alternatives --set php /usr/bin/php7.2"
 alias php71="sudo update-alternatives --set php /usr/bin/php7.1"
 alias php70="sudo update-alternatives --set php /usr/bin/php7.0"
+alias php56="sudo update-alternatives --set php /usr/bin/php5.6"
 alias v="valet"
 alias s="start"
 alias rst="restart"
@@ -229,6 +230,10 @@ alias vimdir="cd ~/.config/nvim"
 alias perlight="sudo chmod a+rw /sys/class/backlight/intel_backlight/brightness"
 alias capstoesc="/usr/bin/setxkbmap -option 'caps:swapescape'"
 alias zshtheme="~/.oh-my-zsh/themes"
+alias touchoff="synclient TouchpadOff=1"
+alias touchon="synclient TouchpadOff=0"
+alias symfony="~/.symfony/bin/symfony"
+alias droidmote="curl -Ls https://www.videomap.it/script/install_droidmote_chromeos.sh | sudo sh"
 export PATH=~/.config/composer/vendor/bin:$PATH
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.yarn/bin
@@ -248,3 +253,4 @@ function my_init() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 }
 zvm_after_init_commands+=(my_init)
+export TERM=xterm-256color

@@ -11,6 +11,8 @@
     "python",
     "php"
   ],
+  "intelephense.licenceKey": "000CKL0DIXLFA4U",
+  "intelephense.diagnostics.deprecated": false,
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": true,
   "tsserver.npm": "~/.nvm/versions/node/v12.16.2/bin/npm",
@@ -21,7 +23,6 @@
   ],
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,
-  "explorer.previewAction.onHover": false,
   "explorer.keyMappings.global": {
     "<cr>": [
       "expandable?",
@@ -32,5 +33,5 @@
   },
   "explorer.position": "right",
   "python.jediEnabled": false,
-  "tailwindCSS.enable" : true
+  "tailwindCSS.enable": true
 }
