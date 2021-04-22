@@ -1,0 +1,79 @@
+---
+ip: "192.168.10.10"
+memory: 1024
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/code
+      to: /home/vagrant/code
+
+sites:
+    - map: car-rental-2.homestead
+      to: /home/vagrant/code/myproject/car-rental-2/public
+      php: "7.4"
+    - map: php-nginx.homestead
+      to: /home/vagrant/code/php/nginx
+    - map: car-rental-backoffice.homestead
+      to: /home/vagrant/code/myproject/car-rental-project/backoffice/public
+      php: "7.4"
+    - map: lakasir.homestead
+      to: /home/vagrant/code/myproject/lakasir_project/lakasir/public
+      php: "7.4"
+    - map: phpmyadmin.homestead
+      to: /home/vagrant/code/phpmyadmin
+      php: "7.4"
+    - map: hotel-cms.homestead
+      to: /home/vagrant/code/Fronline/hotel-cms
+      php: "7.1"
+    - map: hotel-backoffice.homestead
+      to: /home/vagrant/code/Fronline/hotel-backoffice
+      php: "7.0"
+
+    - map: jba-accounting.homestead
+      to: /home/vagrant/code/logique/accounting-system/public
+      type: "apache"
+      php: "7.2"
+    - map: southgate-prime.homestead
+      to: /home/vagrant/code/logique/southgate-prime/southgate-prime
+      type: "apache"
+      php: "7.0"
+    - map: php-apache.homestead
+      to: /home/vagrant/code/php/apache
+      type: "apache"
+    - map: jbaweb.homestead
+      to: /home/vagrant/code/logique/jbaweb
+      php: "7.2"
+      type: "apache"
+    - map: jba-web-api.homestead
+      to: /home/vagrant/code/logique/jba-web-api
+      php: "7.2"
+      type: "apache"
+    - map: new-jba-bdms.homestead
+      to: /home/vagrant/code/logique/new-jba-bdms/www
+      php: "7.1"
+      type: "apache"
+    - map: new-jba-cdms.homestead
+      to: /home/vagrant/code/logique/new-jba-cdms/www
+      php: "7.1"
+      type: "apache"
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: true
+    - webdriver: false
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
