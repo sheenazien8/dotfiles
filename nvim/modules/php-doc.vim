@@ -89,8 +89,8 @@ if !exists('g:pdv_cfg_Commentn') | let g:pdv_cfg_Commentn = " * " | endif
 if !exists('g:pdv_cfg_CommentBlank') | let g:pdv_cfg_CommentBlank = " *" | endif
 if !exists('g:pdv_cfg_CommentTail') | let g:pdv_cfg_CommentTail = " */" | endif
 if !exists('g:pdv_cfg_CommentSingle') | let g:pdv_cfg_CommentSingle = "//" | endif
-if !exists('g:pdv_cfg_FuncCommentEnd') | let g:pdv_cfg_FuncCommentEnd = " // End function" | endif
-if !exists('g:pdv_cfg_ClassCommentEnd') | let g:pdv_cfg_ClassCommentEnd = " // End" | endif
+if !exists('g:pdv_cfg_FuncCommentEnd') | let g:pdv_cfg_FuncCommentEnd = "" | endif
+if !exists('g:pdv_cfg_ClassCommentEnd') | let g:pdv_cfg_ClassCommentEnd = "" | endif
 if !exists('g:pdv_cfg_VariableTypeTag') | let g:pdv_cfg_VariableTypeTag = "@var" | endif
 
 " Default values
@@ -302,7 +302,7 @@ func! PhpDocFuncEndAuto(funcname)
 
     call search('{')
     call searchpair('{', '', '}')
-    call setline(line('.'), getline('.') . g:pdv_cfg_FuncCommentEnd . ' ' . a:funcname)
+    call setline(line('.'), getline('.') . g:pdv_cfg_FuncCommentEnd)
 
 endfunc
 " }}}
@@ -310,7 +310,7 @@ endfunc
 " {{{ PhpDocClassEnd()
 func! PhpDocClassEnd(classtype, classname)
 
-    call setline(line('.'), getline('.') . g:pdv_cfg_ClassCommentEnd . ' ' . a:classtype . ' ' . a:classname)
+    call setline(line('.'), getline('.') . g:pdv_cfg_ClassCommentEnd)
 endfunc
 " }}}
 " {{{ PhpDocClassEndAuto()

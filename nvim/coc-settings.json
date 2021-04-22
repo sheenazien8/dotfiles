@@ -3,13 +3,12 @@
     "css",
     "markdown",
     "vue",
-    "javascript",
     "graphql",
     "html",
     "yaml",
     "json",
     "python",
-    "php"
+    "ctp"
   ],
   "intelephense.licenceKey": "000CKL0DIXLFA4U",
   "intelephense.diagnostics.deprecated": false,
@@ -19,7 +18,7 @@
   "javascript.showUnused": false,
   "snippets.ultisnips.directories": [
     "UltiSnips",
-    "~/.config/nvim/utils/snips"
+    "~/.config/nvim/UltiSnips/"
   ],
   "explorer.width": 30,
   "explorer.icon.enableNerdfont": true,

@@ -74,3 +74,5 @@ autocmd FileType javascript map <buffer> <F10> :exec '!yarn run test'<CR>
 nmap <F8> :TagbarToggle<CR>
 
 nmap <C-g> :!ctags -R --PHP-kinds=+cf <CR>
+
+" nnoremap <c-z> <nop>

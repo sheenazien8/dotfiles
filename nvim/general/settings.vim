@@ -17,7 +17,7 @@ set pumheight=10                        " Makes popup menu smaller
 set fileencoding=utf-8                  " The encoding written to file
 set ruler              			            " Show the cursor position all the time
 set iskeyword+=-                      	" treat dash separated words as a word text object"
-" set mouse=a                             " Enable your mouse
+set mouse=a                             " Enable your mouse
 set splitbelow                          " Horizontal splits will automatically be below
 set splitright                          " Vertical splits will automatically be to the right
 set t_Co=256                            " Support 256 colors
@@ -59,7 +59,10 @@ highlight ColorSchme guibg=dark
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 " autocmd BufWinLeave *.* mkview
 " autocmd BufWinEnter *.* silent loadview
-
+" augroup tab
+"     autocmd!
+"     autocmd BufReadPost * tabedit %
+" augroup END
 " You can't stop me
 cmap w!! w !sudo tee %
 
@@ -68,11 +71,11 @@ set lazyredraw            " improve scrolling performance when navigating throug
 " exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_red .s:bg_base02 .s:fmt_revbb
 " exe "hi! VertSplit"  .s:fmt_none   .s:fg_red .s:bg_red
 " Disable arrow key in vim, see https://goo.gl/s1yfh4.
-nnoremap <Up> <nop>
-nnoremap <Down> <nop>
-nnoremap <Left> <nop>
-nnoremap <Right> <nop>
-inoremap <Up> <nop>
-inoremap <Down> <nop>
-inoremap <Left> <nop>
-inoremap <Right> <nop>
+" nnoremap <Up> <nop>
+" nnoremap <Down> <nop>
+" nnoremap <Left> <nop>
+" nnoremap <Right> <nop>
+" inoremap <Up> <nop>
+" inoremap <Down> <nop>
+" inoremap <Left> <nop>
+" inoremap <Right> <nop>

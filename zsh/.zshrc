@@ -8,34 +8,6 @@ fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -49,8 +21,8 @@ export ZSH="/home/sheenazien/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+ZSH_THEME="robbyrussell"
+# typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # ZSH_THEME="ys"
 
@@ -165,7 +137,6 @@ alias ls='lsd'
 alias ll='lsd'
 alias lla='lsd -la'
 alias lt='lsd --tree'
-alias vim="nvim"
 alias nvimdir="cd ~/.config/nvim/"
 alias luaconfig="vim ~/.config/awesome/rc.lua"
 alias zshconfig="vim ~/.zshrc"
@@ -234,6 +205,12 @@ alias touchoff="synclient TouchpadOff=1"
 alias touchon="synclient TouchpadOff=0"
 alias symfony="~/.symfony/bin/symfony"
 alias droidmote="curl -Ls https://www.videomap.it/script/install_droidmote_chromeos.sh | sudo sh"
+alias xresources="vim ~/.config/regolith/Xresources"
+alias ide="~/.config/commands/ide.sh"
+alias ideconf="vim ~/.config/commands/ide.sh"
+alias diarydir="cd ~/vimwiki/diary/"
+alias diarytoday="vim ~/vimwiki/diary/$(date '+%Y-%m-%d').md"
+alias commanddir="cd ~/.config/commands/"
 export PATH=~/.config/composer/vendor/bin:$PATH
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.yarn/bin

@@ -29,11 +29,16 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 " System
+Plug 'easymotion/vim-easymotion'
+Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
@@ -42,6 +47,8 @@ Plug 'SirVer/ultisnips'
 Plug 'jiangmiao/auto-pairs'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/tagbar'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'preservim/vimux'
 " Plug 'tobyS/vmustache'
 
 " Marketplace intelisense
@@ -53,17 +60,16 @@ Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'arcticicestudio/nord-vim'
 
 " Global Language
-" Plug 'w0rp/ale'
-" Plug ''
 
 " PHP
 Plug 'tobyS/pdv'
-Plug 'vim-php/vim-php-refactoring'
 Plug 'noahfrederick/vim-composer'
-" Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': ':call phpactor#Update()'}
-
+Plug 'noahfrederick/vim-laravel'
+Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': ':call phpactor#Update()'}
+Plug 'c9s/phpunit.vim'
 Plug 'jwalton512/vim-blade'
 Plug 'StanAngeloff/php.vim'
 
@@ -76,6 +82,7 @@ Plug 'heavenshell/vim-jsdoc', {
   \ 'do': 'make install'
 \}
 Plug 'posva/vim-vue'
+Plug 'epilande/vim-react-snippets'
 
 " HTML
 Plug 'mattn/emmet-vim'
