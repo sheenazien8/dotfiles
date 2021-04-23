@@ -6,6 +6,18 @@ nmap <space>f :CocCommand explorer --preset floating<CR>
 " \     'position': 'tab',
 " \     'quit-on-open': v:true,
 " \   },
+let g:coc_global_extensions = [
+      \'coc-json', 
+      \'coc-explorer', 
+      \'coc-xml', 
+      \'coc-vetur', 
+      \'coc-tsserver',
+      \'coc-tailwind-intellisense', 
+      \'coc-phpls', 
+      \'coc-python', 
+      \'coc-java', 
+      \'coc-css'
+      \]
 
 " Explorer
 let g:coc_explorer_global_presets = {

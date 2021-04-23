@@ -75,4 +75,8 @@ nmap <F8> :TagbarToggle<CR>
 
 nmap <C-g> :!ctags -R --PHP-kinds=+cf <CR>
 
+command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
+map <c-s> <esc>:w<cr>:Silent php-cs-fixer fix %:p<cr>
+
+
 " nnoremap <c-z> <nop>
