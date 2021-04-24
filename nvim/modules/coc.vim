@@ -12,8 +12,6 @@ let g:coc_global_extensions = [
       \'coc-xml', 
       \'coc-vetur', 
       \'coc-tsserver',
-      \'coc-tailwind-intellisense', 
-      \'coc-phpls', 
       \'coc-python', 
       \'coc-java', 
       \'coc-css'
@@ -183,7 +181,7 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
-" Use <TAB> for selections ranges.
+" Use <TAB> for selectfions ranges.
 " NOTE: Requires 'textDocument/selectionRange' support from the language server.
 " coc-tsserver, coc-python are the examples of servers that support it.
 nmap <silent> <TAB> <Plug>(coc-range-select)
