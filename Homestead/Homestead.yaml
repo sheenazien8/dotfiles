@@ -35,6 +35,10 @@ sites:
       to: /home/vagrant/code/Fronline/hotel-backoffice
       php: "7.0"
 
+    - map: phpmyadmin.homestead
+      to: /home/vagrant/code/phpmyadmin
+      php: "7.4"
+      type: "apache"
     - map: jba-accounting.homestead
       to: /home/vagrant/code/logique/accounting-system/public
       type: "apache"

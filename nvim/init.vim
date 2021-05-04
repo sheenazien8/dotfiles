@@ -15,6 +15,7 @@ source $HOME/.config/nvim/modules/phpactor.vim
 source $HOME/.config/nvim/modules/vimwiki.vim
 source $HOME/.config/nvim/modules/calendar.vim
 source $HOME/.config/nvim/modules/coc.vim
+source $HOME/.config/nvim/modules/nerdrw.vim
 source $HOME/.config/nvim/modules/fzf.vim
 source $HOME/.config/nvim/modules/jsx-improve.vim
 source $HOME/.config/nvim/modules/tmux-navigator.vim
