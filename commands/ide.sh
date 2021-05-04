@@ -1,5 +1,5 @@
 #!/bin/bash
-tmux split-window -h -p 30
+tmux split-window -v -p 30
 cd ~/vimwiki/diary/
-tmux split-window -v
+tmux split-window -h
 # firefox
