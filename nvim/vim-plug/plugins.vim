@@ -29,9 +29,10 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 " System
-Plug 'easymotion/vim-easymotion'
 Plug 'vimwiki/vimwiki'
 Plug 'mattn/calendar-vim'
+" Plug 'ryanoasis/vim-devicons'
+Plug 'taohexxx/lightline-buffer'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
@@ -49,6 +50,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/tagbar'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
+" Plug 'vim-vdebug/vdebug'
 " Plug 'tobyS/vmustache'
 
 " Marketplace intelisense

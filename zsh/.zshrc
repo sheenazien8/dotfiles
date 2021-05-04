@@ -13,7 +13,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/sheenazien/.oh-my-zsh"
+export ZSH="/home/sheena/.oh-my-zsh"
 # powerlevel config
 # POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 # POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
@@ -21,7 +21,7 @@ export ZSH="/home/sheenazien/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="zhann"
 # typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # ZSH_THEME="ys"
@@ -84,7 +84,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting z composer fzf-tab fzf laravel)
+plugins=(git z composer fzf laravel fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -139,6 +139,7 @@ alias lla='lsd -la'
 alias lt='lsd --tree'
 alias vi="editor"
 alias vim="nvim"
+alias vimconfig="vi ~/.vimrc"
 alias nvimdir="cd ~/.config/nvim/"
 alias luaconfig="vim ~/.config/awesome/rc.lua"
 alias zshconfig="vim ~/.zshrc"
@@ -148,6 +149,7 @@ alias edt="editor"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias pa="php artisan"
 alias rs="reset"
+alias cl="clear"
 alias open="nautilus"
 alias html="/var/www/html/"
 alias nginx-stop="sudo service nginx stop"
@@ -213,6 +215,7 @@ alias ideconf="vim ~/.config/commands/ide.sh"
 alias diarydir="cd ~/vimwiki/diary/"
 alias diarytoday="vim ~/vimwiki/diary/$(date '+%Y-%m-%d').md"
 alias commanddir="cd ~/.config/commands/"
+alias switch-php="sudo update-alternatives --config php"
 export PATH=~/.config/composer/vendor/bin:$PATH
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/.yarn/bin
@@ -223,8 +226,8 @@ export PHPV="php -r 'echo phpversion()."\n";'"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source /usr/share/doc/fzf/examples/completion.zsh
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+# source /usr/share/doc/fzf/examples/completion.zsh
+# source /usr/share/doc/fzf/examples/key-bindings.zsh
 
 # export FZF_BASE=/usr/share/doc/fzf/
 export FZF_BASE="$HOME/.fzf"
@@ -233,3 +236,5 @@ function my_init() {
 }
 zvm_after_init_commands+=(my_init)
 export TERM=xterm-256color
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
