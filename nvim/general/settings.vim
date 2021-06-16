@@ -36,14 +36,6 @@ set path+=**
 set colorcolumn=120
 
 highlight ColorSchme guibg=dark
-" au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
-" autocmd BufWinLeave *.* mkview
-" autocmd BufWinEnter *.* silent loadview
-" augroup tab
-"     autocmd!
-"     autocmd BufReadPost * tabedit %
-" augroup END
-
 " You can't stop me
 cmap w!! w !sudo tee %
 

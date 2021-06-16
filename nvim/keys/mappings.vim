@@ -1,4 +1,4 @@
-" search file
+" mearch file
 " Better nav for omnicomplete
 inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
@@ -55,7 +55,7 @@ nnoremap <space>/ :Commentary<CR>
 vnoremap <space>/ :Commentary<CR>
 
 " terminal
-nnoremap <leader>` :botright 15 sp term://zsh <CR>
+nnoremap <leader>` :!tmux split-window -v -p 20 <CR> <CR>
 nnoremap <C-`> :botright 15 sp term://zsh <CR>
 
 " enable ncm2 for all buffers

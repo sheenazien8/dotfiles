@@ -1,8 +1,8 @@
 " auto-install vim-plug
-"if empty(glob('~/.config/nvim/autoload/plug.vim'))
-"  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"endif
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 "*****************************************************************************
 "" Vim-Plug core
 "*****************************************************************************
@@ -31,33 +31,28 @@ call plug#begin('~/.config/nvim/autoload/plugged')
 " System
 Plug 'vimwiki/vimwiki'
 Plug 'mattn/calendar-vim'
-" Plug 'ryanoasis/vim-devicons'
-Plug 'taohexxx/lightline-buffer'
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-rooter'
-Plug 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
 Plug 'jiangmiao/auto-pairs'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/tagbar'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'preservim/vimux'
-" Plug 'vim-vdebug/vdebug'
-" Plug 'tobyS/vmustache'
+
+" Global Snippet
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 " Marketplace intelisense
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'neovim/nvim-lspconfig'
 
 " ColorSchme
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ayu-theme/ayu-vim'
@@ -67,11 +62,7 @@ Plug 'arcticicestudio/nord-vim'
 " Global Language
 
 " PHP
-Plug 'tobyS/pdv'
-Plug 'noahfrederick/vim-composer'
-Plug 'noahfrederick/vim-laravel'
 Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': ':call phpactor#Update()'}
-Plug 'c9s/phpunit.vim'
 Plug 'jwalton512/vim-blade'
 Plug 'StanAngeloff/php.vim'
 
@@ -89,4 +80,6 @@ Plug 'epilande/vim-react-snippets'
 " HTML
 Plug 'mattn/emmet-vim'
 
+" Flutter
+Plug 'dart-lang/dart-vim-plugin'
 call plug#end()

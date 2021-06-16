@@ -1,24 +1,9 @@
 " Explorer
 nmap <C-\> :CocCommand explorer<CR>
-nmap <leader>\ :CocCommand explorer<CR>
-nmap <space>f :CocCommand explorer --preset floating<CR>
-" \   'tab': {
-" \     'position': 'tab',
-" \     'quit-on-open': v:true,
-" \   },
-let g:coc_global_extensions = [
-      \'coc-json', 
-      \'coc-xml', 
-      \'coc-vetur', 
-      \'coc-tsserver',
-      \'coc-python', 
-      \'coc-java', 
-      \'coc-css',
-      \'coc-phpls',
-      \'coc-explorer'
-      \]
-
-" Explorer
+" nmap <leader>\ :CocCommand explorer<CR>
+nmap <leader>\ :CocCommand explorer --preset floating<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 let g:coc_explorer_global_presets = {
 \   '.vim': {
 \     'root-uri': '~/.vim',
@@ -49,10 +34,23 @@ let g:coc_explorer_global_presets = {
 \   }
 \ }
 
-nmap <space>e :CocCommand explorer<CR>
-nmap <space>f :CocCommand explorer --preset floating<CR>
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+" \   'tab': {
+" \     'position': 'tab',
+" \     'quit-on-open': v:true,
+" \   },
+let g:coc_global_extensions = [
+      \'coc-json', 
+      \'coc-xml', 
+      \'coc-vetur', 
+      \'coc-tsserver',
+      \'coc-python', 
+      \'coc-java', 
+      \'coc-css',
+      \'coc-phpls',
+      \'coc-explorer'
+      \]
+
+" Explorer
 " autocmd BufRead,BufNewFile *.blade.php set filetype=html
 
 if executable('intelephense')
@@ -135,6 +133,9 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+" call refactor window.
+nmap <leader>t <Plug>(coc-refactor)
+
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
@@ -185,8 +186,8 @@ endif
 " Use <TAB> for selectfions ranges.
 " NOTE: Requires 'textDocument/selectionRange' support from the language server.
 " coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')

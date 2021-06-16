@@ -7,10 +7,11 @@ let g:lightline = {
       \ 'colorscheme': 'onedark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filenamse' ] ]
+      \             [ 'gitbranch', 'readonly', 'filenames'] ],
+      \   'right': [[ 'lineinfo' ]]
       \ },
       \ 'tabline': {
-      \   'left': [ [ 'bufferinfo' ],
+      \   'left': [ [ 'icon', 'bufferinfo' ],
       \             [ 'separator' ],
       \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ], ],
       \ },
@@ -47,9 +48,9 @@ let g:lightline_buffer_git_icon = ' '
 let g:lightline_buffer_ellipsis_icon = '..'
 let g:lightline_buffer_expand_left_icon = '◀ '
 let g:lightline_buffer_expand_right_icon = ' ▶'
-let g:lightline_buffer_active_buffer_left_icon = ''
-let g:lightline_buffer_active_buffer_right_icon = ''
-let g:lightline_buffer_separator_icon = '  '
+let g:lightline_buffer_active_buffer_left_icon = '|'
+let g:lightline_buffer_active_buffer_right_icon = '|'
+let g:lightline_buffer_separator_icon = '||'
 
 " lightline-buffer function settings
 let g:lightline_buffer_show_bufnr = 1

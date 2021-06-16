@@ -3,6 +3,8 @@
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin()
 Plug 'joshdick/onedark.vim' 
+Plug 'morhetz/gruvbox'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 " set leader key
@@ -67,13 +69,15 @@ endif
 let g:onedark_hide_endofbuffer=1
 let g:onedark_termcolors=256
 
-syntax on
+hi Comment cterm=italic
+
+syntax enable
+" let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_selection= '0'
 colorscheme onedark
 let g:php_var_selector_is_identifier = 1
-
-
-" checks if your terminal has 24-bit color support
+let php_sql_query=1
 if (has("termguicolors"))
-    set termguicolors
     hi LineNr ctermbg=NONE guibg=NONE
 endif
+

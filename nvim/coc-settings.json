@@ -6,14 +6,10 @@
     "graphql",
     "html",
     "yaml",
-    "json",
-    "python",
     "ctp"
   ],
   "intelephense.licenceKey": "000CKL0DIXLFA4U",
   "intelephense.diagnostics.deprecated": false,
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
   "tsserver.npm": "~/.nvm/versions/node/v12.16.2/bin/npm",
   "javascript.showUnused": false,
   "snippets.ultisnips.directories": [
@@ -30,7 +26,9 @@
     ],
     "v": "open:vsplit"
   },
+  "explorer.file.showHiddenFiles":true,
   "explorer.position": "right",
-  "python.jediEnabled": false,
-  "tailwindCSS.enable": true
+  "tailwindCSS.enable": true,
+  "python.linting.enabled": true,
+  "flutter.lsp.debug": true
 }
