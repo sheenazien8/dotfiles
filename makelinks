@@ -1,0 +1,58 @@
+#!/bin/bash
+
+sudo apt install curl wget
+
+[ ! -d "$HOME/.config/nvim/autoload/" ] && mkdir -p "$HOME/.config/nvim/autoload/"
+
+if [ -f "$HOME/.config/nvim/autoload/plug.vim" ]; then
+    echo "Plug for neovim already installed, skipping"
+else
+    echo "Installing Plug for neovim"
+    curl -fLo "$HOME/.config/nvim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+if [ -d "$HOME/.oh-my-zsh" ]; then
+    echo "Oh My Zsh already installed, skipping"
+else
+    echo "Installing Oh My Zsh"
+    echo "=====================IMPORTANT!====================="
+    echo "Make sure to exit zsh once its installation is done!"
+    echo "===================================================="
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
+
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/flatpak" ]; then
+    echo "flatpak-zsh-completion already installed, skipping"
+else
+    echo "Installing flatpak-zsh-completion"
+    git clone https://github.com/bilelmoussaoui/flatpak-zsh-completion "$HOME/.oh-my-zsh/custom/plugins/flatpak"
+fi
+
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+    echo "zsh-syntax-highlighting already installed, skipping"
+else
+    echo "Installing zsh-syntax-highlighting"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+fi
+
+if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+    echo "zsh-autosuggestions already installed, skipping"
+else
+    echo "Installing zsh-autosuggestions"
+    git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+fi
+
+# Installing dotfiles with stow
+
+rm -rf "$HOME/.config/alacritty"
+rm -rf "$HOME/.vimrc"
+rm -rf "$HOME/.zshrc"
+
+[ ! -d "$HOME/.config/kitty" ] && mkdir -p "$HOME/.config/kitty"
+stow -vSt "$HOME/.config/kitty" -d kitty
+[ ! -d "$HOME/.config/alacritty" ] && mkdir -p "$HOME/.config/alacritty"
+stow -vSt "$HOME/.config/alacritty" -d alacritty
+stow -vSt "$HOME/.config/nvim" -d nvim
+stow -vSt "$HOME" vim
+stow -vSt "$HOME" zsh
+

@@ -1,0 +1,55 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/code
+      to: /home/vagrant/code
+
+sites:
+    - map: car-rental-2.homestead
+      to: /home/vagrant/code/myproject/car-rental-2/public
+      php: "7.4"
+    - map: php-nginx.homestead
+      to: /home/vagrant/code/php/nginx
+    - map: car-rental-backoffice.homestead
+      to: /home/vagrant/code/myproject/car-rental-project/backoffice/public
+      php: "7.4"
+    - map: lakasir.homestead
+      to: /home/vagrant/code/myproject/lakasir_project/lakasir/public
+      php: "7.4"
+    - map: phpmyadmin.homestead
+      to: /home/vagrant/code/phpmyadmin
+      php: "7.4"
+    - map: hotel-cms.homestead
+      to: /home/vagrant/code/Fronline/hotel-cms
+      php: "7.1"
+    - map: hotel-backoffice.homestead
+      to: /home/vagrant/code/Fronline/hotel-backoffice
+      php: "7.0"
+    - map: php-info.homestead
+      to: /home/vagrant/code/sandbox/php-info
+      php: "7.0"
+
+databases:
+    - homestead
+
+features:
+    - docker: true
+    - mariadb: false
+    - ohmyzsh: true
+    - webdriver: false
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
