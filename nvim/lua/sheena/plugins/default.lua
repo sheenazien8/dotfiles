@@ -15,6 +15,14 @@ require('Comment').setup{
     }
   end,
 }
+-- local ft = require('Comment.ft')
+-- ft.set('blade', '{{-- %s  --}}')
+
 require('GoToWorkspace')
-require('gitsigns').setup()
+require('gitsigns').setup({
+  signcolumn = false;
+})
+-- vim.cmd 'autocmd BufNewFile,BufRead *.blade.php set filetype=blade'
+-- vim.cmd 'autocmd BufWinEnter,WinEnter *.blade.php set filetype=html'
+-- vim.cmd 'autocmd BufWinEnter,BufRead *.blade.php set syntax=html'
 -- require'colorizer'.setup()

@@ -13,19 +13,26 @@ return require('packer').startup(function(use)
   use 'jiangmiao/auto-pairs'
   use 'editorconfig/editorconfig-vim'
   use 'christoomey/vim-tmux-navigator'
-  use "lukas-reineke/indent-blankline.nvim"
+  use { 'mattn/emmet-vim' }
+  -- use "lukas-reineke/indent-blankline.nvim"
   use { 'numToStr/Comment.nvim' }
   use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
   use { 'vimwiki/vimwiki' }
-  -- use { 'norcalli/nvim-colorizer.lua' }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  -- use {'sheenazien8/vim-nyambung-db', run = 'pip3 install mysql-connector' }
   use { 'tpope/vim-dadbod' }
   use { 'tpope/vim-surround' }
-  -- use { 'tpope/vim-commentary' }
+  use { 'rcarriga/nvim-notify' }
+  use {
+    'phaazon/hop.nvim',
+    branch = 'v1', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require'hop'.setup { keys = '' }
+    end
+  }
 
   -- treesiter plugins
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -51,6 +58,8 @@ return require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap'
   use { 'jwalton512/vim-blade' }
   use { 'jparise/vim-graphql' }
+  use { 'sbdchd/neoformat' }
+  -- use { 'pierreglaser/folding-nvim' }
   -- snippet
   use {
     'SirVer/ultisnips',

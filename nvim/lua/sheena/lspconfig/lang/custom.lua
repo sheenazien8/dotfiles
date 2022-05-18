@@ -1,6 +1,10 @@
+vim.notify = require("notify")
+ServerName = ""
 local M = {}
 function M.custom_on_init()
-  print("Language Server Protocol started!")
+  vim.notify("Language Server Protocol started!", "info", {
+  title = "LSP Info",
+})
 end
 function M.custom_capabilities()
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -16,6 +20,7 @@ end
 
 function M.on_attach(client, bufnr)
   require('sqls').on_attach(client, bufnr)
+  -- require('folding').on_attach()
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -45,7 +50,9 @@ function M.on_attach(client, bufnr)
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 end
 
-function M.default(configs)
+function M.default(configs, server)
+
+  ServerName = server
   local icons = {
     Class = " ",
     Color = " ",
@@ -93,7 +100,7 @@ function M.default(configs)
   }
   vim.diagnostic.config({
     virtual_text = {
-      prefix = '●', -- Could be '■', '●', '▎', 'x'
+      -- prefix = '●', -- Could be '■', '●', '▎', 'x'
     }
   })
   if configs ~= nil then

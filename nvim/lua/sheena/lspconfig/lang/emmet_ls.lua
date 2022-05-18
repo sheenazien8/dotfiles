@@ -1,9 +1,12 @@
 local M = {}
 function M.custom_config()
   return {
-    cmd = { 'ls_emmet', '--stdio' };
+    -- cmd = { 'emmet-ls', '--stdio' };
+    cmd = {'ls_emmet', '--stdio'},
     filetypes = {
+      'vue',
       'blade',
+      'php',
       'html',
       'css',
       'scss',
@@ -11,18 +14,12 @@ function M.custom_config()
       'javascriptreact',
       'typescript',
       'typescriptreact',
-      'haml',
-      'xml',
-      'xsl',
-      'pug',
-      'slim',
       'sass',
-      'stylus',
-      'less',
-      'sss',
-      'hbs',
-      'handlebars',
     };
+    settings = {
+      html_filetypes = {'xml', 'html', 'blade'},
+      css_filetypes = {'css', 'html', 'blade'},
+    }
   }
 end
 return M

@@ -21,6 +21,7 @@ require'nvim-treesitter.configs'.setup {
   },
   matchup = {
     enable = true,
+    -- disable = {"blade"}
   },
   context_commentstring = {
     enable = true,
