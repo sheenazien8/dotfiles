@@ -1,9 +1,9 @@
 shell:
   program: /bin/zsh
-  args:
-    - -l
-    - -c
-    - "tmux"
+  # args:
+  #   - -l
+  #   - -c
+  #   - "tmux"
 window:
   dimensions:
     columns: 0
@@ -13,7 +13,8 @@ window:
     y: 2
 
   dynamic_padding: true
-  decorations: none
+  dynamic_title: false
+  decorations: Full
   startup_mode: Windowed
 
   title: Alacritty!
@@ -25,7 +26,7 @@ window:
 font:
   normal:
     family: VictorMono Nerd Font Mono
-    style:  Bold
+    style:  Semibold
   bold:
     family: JetBrains Mono Nerd Font
     style:  Bold
@@ -35,7 +36,7 @@ font:
   bold_italic:
     family: JetBrains Mono Nerd Font
     style: BoldItalic
-  size: 6.5
+  size:  6.5
 draw_bold_text_with_bright_colors: true
 
 custom_cursor_colors: true
@@ -75,7 +76,6 @@ colors:
   cursor:
     text: "0x1E1D2F"
     cursor: "0xF5E0DC"
-dynamic_title: false
 cursor:
   style: Block
 mouse:

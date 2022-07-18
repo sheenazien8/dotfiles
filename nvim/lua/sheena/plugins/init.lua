@@ -9,6 +9,8 @@ end
 return require('packer').startup(function(use)
   use 'sheenazien8/GoToWorkspace.nvim'
   -- Packer can manage itself
+  -- Lua
+  use { "folke/which-key.nvim" }
   use {'wbthomason/packer.nvim', opt = true}
   use 'jiangmiao/auto-pairs'
   use 'editorconfig/editorconfig-vim'
@@ -24,7 +26,7 @@ return require('packer').startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use { 'tpope/vim-dadbod' }
   use { 'tpope/vim-surround' }
-  use { 'rcarriga/nvim-notify' }
+  --[[ use { 'rcarriga/nvim-notify' } ]]
   use {
     'phaazon/hop.nvim',
     branch = 'v1', -- optional but strongly recommended
@@ -56,6 +58,7 @@ return require('packer').startup(function(use)
   use 'lighttiger2505/sqls.vim'
   use {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'}
   use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use { 'jwalton512/vim-blade' }
   use { 'jparise/vim-graphql' }
   use { 'sbdchd/neoformat' }

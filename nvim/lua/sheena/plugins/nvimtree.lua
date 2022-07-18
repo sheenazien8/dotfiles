@@ -1,7 +1,5 @@
 local helpers = require('sheena.utils.helpers')
-helpers.keymaps('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
--- helpers.keymaps('n', '<leader>nf', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
--- helpers.keymaps('n', '<leader>nr', ':NvimTreeRefresh<CR>', { noremap = true, silent = true })
+helpers.keymaps('n', '<leader>vn', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 require'nvim-tree'.setup ({
   auto_close = true,
   open_on_setup = false,

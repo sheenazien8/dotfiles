@@ -5,8 +5,6 @@ function M.custom_config()
     cmd = {'ls_emmet', '--stdio'},
     filetypes = {
       'vue',
-      'blade',
-      'php',
       'html',
       'css',
       'scss',

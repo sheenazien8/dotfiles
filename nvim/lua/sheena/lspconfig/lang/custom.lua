@@ -1,10 +1,12 @@
-vim.notify = require("notify")
+--[[ vim.notify = require("notify") ]]
 ServerName = ""
 local M = {}
 function M.custom_on_init()
-  vim.notify("Language Server Protocol started!", "info", {
-  title = "LSP Info",
-})
+  --[[ vim.notify("Language Server Protocol started!", "info", {
+    title = "LSP Info",
+  }) ]]
+
+  print("Language Server Protocol started!")
 end
 function M.custom_capabilities()
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())

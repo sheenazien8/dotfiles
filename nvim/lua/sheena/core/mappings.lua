@@ -34,8 +34,8 @@ helpers.keymaps('v', 'J', ":m '>+1<CR>gv=gv", { noremap = true })
 helpers.keymaps('v', 'K', ":m '<-2<CR>gv=gv", { noremap = true })
 
 -- better split
-helpers.keymaps('n', '<leader>v', ':vsplit<CR>', { noremap = true })
-helpers.keymaps('n', '<leader>h', ':split<CR>', { noremap = true })
+helpers.keymaps('n', '<leader>sv', ':vsplit<CR>', { noremap = true })
+helpers.keymaps('n', '<leader>sh', ':split<CR>', { noremap = true })
 
 -- terminal
 helpers.keymaps('n', '<leader>`', ':!tmux split-window -v -p 20 <CR> <CR>', { noremap = true })
@@ -54,7 +54,8 @@ helpers.keymaps('n', 'ZZ', ':lua CloseWithSave()<CR>', {})
 
 helpers.keymaps('n', ']q', ':cnext<CR>', { noremap = true })
 helpers.keymaps('n', '[q', ':cprev<CR>', { noremap = true })
-helpers.keymaps('n', '<leader>cc', ':cclose<CR>', { noremap = true })
+helpers.keymaps('n', ']cc', ':cclose<CR>', { noremap = true })
+helpers.keymaps('n', '[cc', ':cclose<CR>', { noremap = true })
 
 function Prettier()
   local cmd = vim.cmd
