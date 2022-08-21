@@ -47,5 +47,3 @@ function M.custom_config()
   }
 end
 return M
-
-

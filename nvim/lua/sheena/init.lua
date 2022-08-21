@@ -12,13 +12,14 @@ require('sheena.plugins.treesitter')
 require('sheena.plugins.lualine')
 -- require('sheena.plugins.refactor')
 require('sheena.plugins.terminal')
-require('sheena.core.settings')
-require('sheena.theme.gruvbox')
 require('sheena.plugins.flutter')
 require('sheena.plugins.hop')
 require('sheena.plugins.dap')
 require('sheena.plugins.gitsigns')
 require('sheena.plugins.whichkey')
+require('sheena.plugins.winbar')
+require('sheena.core.settings')
+require('sheena.theme.gruvbox')
 
 -- local opts = { noremap = true, silent = true }
 --

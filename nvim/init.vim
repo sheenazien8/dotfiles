@@ -9,19 +9,29 @@ let g:user_emmet_leader_key=','
 
 let g:user_emmet_mode='n,v'    "only enable normal mode functions.
 
-let s:hidden_all = 1
-function! ToggleHiddenAll()
-    if s:hidden_all  == 0
-        let s:hidden_all = 1
-        set noruler
-        set laststatus=0
-        set showmode
-    else
-        let s:hidden_all = 0
-        set ruler
-        set laststatus=3
-        set noshowmode
-    endif
-endfunction
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
-nnoremap <S-h> :call ToggleHiddenAll()<CR>
+" let s:hidden_all = 1
+" function! ToggleHiddenAll()
+"     if s:hidden_all  == 0
+"         let s:hidden_all = 1
+"         set noruler
+"         set laststatus=3
+"         set showmode
+"     else
+"         let s:hidden_all = 0
+"         set ruler
+"         set laststatus=3
+"         set noshowmode
+"     endif
+" endfunction
+"
+" nnoremap <S-h> :call ToggleHiddenAll()<CR>
+set cursorline
+highlight clear CursorLine
+highlight CursorLineNR ctermbg=red
+set laststatus=3

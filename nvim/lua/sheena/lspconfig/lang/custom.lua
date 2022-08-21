@@ -46,9 +46,10 @@ function M.on_attach(client, bufnr)
   buf_set_keymap('n', '[g', ':lua vim.diagnostic.goto_prev()<CR>', {silent = true})
   buf_set_keymap('n', ']g', ':lua vim.diagnostic.goto_next()<CR>', {silent = true})
   buf_set_keymap("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>", {silent = true})
+
   -- Setup lspconfig.
   require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  client.resolved_capabilities.execute_command = true -- client.commands = require('sqls').commands
+  client.server_capabilities.executeCommand = true -- client.commands = require('sqls').commands
   -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
 end
 

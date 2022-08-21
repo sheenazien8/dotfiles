@@ -7,7 +7,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function(use)
-  use 'sheenazien8/GoToWorkspace.nvim'
+  use '/Users/sheenazien/Documents/code/nvim-plugins/GoToWorkspace.nvim'
   -- Packer can manage itself
   -- Lua
   use { "folke/which-key.nvim" }
@@ -81,6 +81,7 @@ return require('packer').startup(function(use)
   }
 
   -- theme
+  use { 'fgheng/winbar.nvim' }
   use 'morhetz/gruvbox'
   use 'folke/tokyonight.nvim'
   use {

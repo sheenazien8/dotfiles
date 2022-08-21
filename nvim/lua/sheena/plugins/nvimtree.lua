@@ -1,7 +1,8 @@
 local helpers = require('sheena.utils.helpers')
 helpers.keymaps('n', '<leader>vn', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+helpers.keymaps('n', '<leader>vf', ':NvimTreeFocus<CR>', { noremap = true, silent = true })
 require'nvim-tree'.setup ({
-  auto_close = true,
+  -- auto_close = true,
   open_on_setup = false,
   update_cwd = true,
   disable_netrw = true,
@@ -9,8 +10,8 @@ require'nvim-tree'.setup ({
     side = 'right',
     width = 40,
     number = false,
-    relativenumber = false,
-    auto_resize = true
+    relativenumber = false
+    -- auto_resize = false
   },
   diagnostics = {
     enable = true,

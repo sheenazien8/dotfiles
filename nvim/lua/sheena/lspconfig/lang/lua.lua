@@ -1,7 +1,7 @@
 local M = {}
 function M.custom_config()
   vim.cmd 'au! BufWrite *.lua echo "OK"'
-  local sumneko_root_path = '/home/sheenazien/Documents/Code/apps/lua-language-server'
+  local sumneko_root_path = '/Users/sheenazien/Documents/code/apps/lua-language-server'
   local sumneko_binary = sumneko_root_path.."/bin".."/lua-language-server"
   local runtime_path = vim.split(package.path, ';')
   table.insert(runtime_path, "lua/?.lua")
