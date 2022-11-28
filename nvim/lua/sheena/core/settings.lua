@@ -40,3 +40,4 @@ set.termguicolors=true
 set.laststatus=3
 -- set.foldmethod=expr
 -- set.foldexpr=nvim_treesitter#foldexpr()
+set.cmdheight=0

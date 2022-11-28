@@ -103,7 +103,7 @@ function M.default(configs, server)
   }
   vim.diagnostic.config({
     virtual_text = {
-      -- prefix = '●', -- Could be '■', '●', '▎', 'x'
+      prefix = '●', -- Could be '■', '●', '▎', 'x'
     }
   })
   if configs ~= nil then

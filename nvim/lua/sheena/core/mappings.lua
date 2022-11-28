@@ -44,7 +44,8 @@ helpers.keymaps('n', 'n', 'nzzzv', { noremap = true })
 helpers.keymaps('n', 'N', 'Nzzzv', { noremap = true })
 
 -- saving
-helpers.keymaps('n', '<c-s>', '<esc>:w<cr>', {})
+helpers.keymaps('n', '<c-s>', '<esc>:silent! w<cr>', {})
+helpers.keymaps('i', '<c-s>', '<esc>:silent! w<cr>', {})
 
 -- copy to clipboard
 helpers.keymaps('v', '<c-c>', '"+y', {})
@@ -56,6 +57,8 @@ helpers.keymaps('n', ']q', ':cnext<CR>', { noremap = true })
 helpers.keymaps('n', '[q', ':cprev<CR>', { noremap = true })
 helpers.keymaps('n', ']cc', ':cclose<CR>', { noremap = true })
 helpers.keymaps('n', '[cc', ':cclose<CR>', { noremap = true })
+
+helpers.keymaps('n', '<C-w>w', ':bd<CR>', { noremap = true })
 
 function Prettier()
   local cmd = vim.cmd

@@ -35,6 +35,9 @@ require('Comment').setup{
     }
   end,
 }
+
+require("gotoworkspace").setup()
+-- require("noice").setup()
 -- local ft = require('Comment.ft')
 -- ft.set('typescriptreact', '{{-- %s  --}}')
 
@@ -43,3 +46,4 @@ require('Comment').setup{
 -- vim.cmd 'autocmd BufWinEnter,WinEnter *.blade.php set filetype=html'
 -- vim.cmd 'autocmd BufWinEnter,BufRead *.blade.php set syntax=html'
 -- require'colorizer'.setup()
+-- lua

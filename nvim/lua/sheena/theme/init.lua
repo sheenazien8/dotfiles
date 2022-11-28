@@ -1,6 +1,7 @@
-local function set(theme)
-  print("init theme")
-  require('sheena.theme.'..theme)
+local M = {}
+
+M.setup = function (config)
+  require("sheena.theme." .. config.theme)
 end
 
-return set
+return M

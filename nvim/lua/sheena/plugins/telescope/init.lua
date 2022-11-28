@@ -83,6 +83,10 @@ require("telescope").setup {
 
 -- https://github.com/nvim-telescope/telescope-fzf-native.nvim#telescope-fzf-nativenvim
 require("telescope").load_extension "fzf"
+-- require("telescope").load_extension("noice")
+
+-- load extension
+-- require('telescope').load_extension('vimwiki')
 
 -- require zoxide for telescope
 -- require("telescope").load_extension "zoxide"

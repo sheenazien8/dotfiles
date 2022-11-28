@@ -4,9 +4,10 @@ require('sheena.plugins.default')
 require('sheena.plugins.indentline')
 require('sheena.plugins.nvimtree')
 require('sheena.plugins.vimwiki')
--- require('sheena.plugins.gotoworkspace')
+-- print(vim.inspect(require('sheena.plugins.gotoworkspace.init')))
 require('sheena.plugins.telescope')
 require('sheena.plugins.cmp')
+require('sheena.plugins.luasnip')
 require('sheena.lspconfig')()
 require('sheena.plugins.treesitter')
 require('sheena.plugins.lualine')
@@ -19,7 +20,10 @@ require('sheena.plugins.gitsigns')
 require('sheena.plugins.whichkey')
 require('sheena.plugins.winbar')
 require('sheena.core.settings')
-require('sheena.theme.gruvbox')
+require('sheena.theme.init').setup({
+  theme = "gruvbox"
+})
+
 
 -- local opts = { noremap = true, silent = true }
 --

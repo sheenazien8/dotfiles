@@ -1,14 +1,14 @@
-local gps = require("nvim-gps")
+-- local gps = require("nvim-gps")
 require('lualine').setup{
   options = {
-    section_separators = { left = '', right = '' },
-    component_separators = { left = '', right = '' },
+    section_separators = { left = '|', right = '|' },
+    component_separators = { left = '|', right = '|' },
     -- theme = 'tokyonight'
   },
   sections = {
-    lualine_c = {
-      { gps.get_location, cond = gps.is_available },
-    },
+    -- lualine_c = {
+      -- { gps.get_location, cond = gps.is_available },
+    -- },
     lualine_x = {'filename', 'encoding', 'fileformat', 'filetype'},
   }
 }
@@ -18,8 +18,8 @@ require'tabline'.setup {
   options = {
     -- If lualine is installed tabline will use separators configured in lualine by default.
     -- These options can be used to override those settings.
-    section_separators = {'', ''},
-    component_separators = {'', '' },
+    -- section_separators = {'', ''},
+    -- component_separators = {'', '' },
     max_bufferline_percent = 100, -- set to nil by default, and it uses vim.o.columns * 2/3
     show_tabs_always = false, -- this shows tabs only when there are more than one tab or if the first tab is named
     show_devicons = true, -- this shows devicons in buffer section
