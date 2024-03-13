@@ -1,14 +1,54 @@
 #!/bin/bash
 
+dotfiles_dir=$(pwd)
+
 sudo apt install curl wget
+sudo apt install snapd -y
 
-[ ! -d "$HOME/.config/nvim/autoload/" ] && mkdir -p "$HOME/.config/nvim/autoload/"
-
-if [ -f "$HOME/.config/nvim/autoload/plug.vim" ]; then
-    echo "Plug for neovim already installed, skipping"
+if command -v "nvim" &> /dev/null; then
+    echo "nvim is installed, skipping"
 else
-    echo "Installing Plug for neovim"
-    curl -fLo "$HOME/.config/nvim/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x nvim.appimage
+    ./nvim.appimage --appimage-extract
+    sudo mv squashfs-root /
+    sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
+fi
+
+if command -v "tmux" &> /dev/null; then
+    echo "tmux is installed, skipping"
+else
+    sudo apt install tmux
+fi
+
+if command -v "alacritty" &> /dev/null; then
+    echo "alacritty is installed, skipping"
+else
+    rm -rf "$HOME/.config/alacritty"
+    mkdir "$HOME/.config/alacritty"
+    echo "install font you needed...."
+    mkdir Iosevka
+    mkdir "$HOME/.fonts"
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip
+    unzip Iosevka.zip -d Iosevka/
+    mv Iosevka/*.ttf ~/.fonts
+    fc-cache -fv
+    rm -rf Iosevka
+    rm Iosevka.zip
+    echo "install alacritty...."
+    sudo apt install alacritty
+    echo "install themes...."
+    wget https://github.com/alacritty/alacritty-theme/archive/refs/tags/yaml.zip
+    unzip yaml.zip
+    mv alacritty-theme-yaml/* ~/.config/alacritty/
+    rm -rf alacritty-theme-yaml
+    rm -rf yaml.zip
+fi
+
+if command -v "fzf" &> /dev/null; then
+    echo "fzf is installed, skipping"
+else
+    sudo apt install fzf
 fi
 
 if [ -d "$HOME/.oh-my-zsh" ]; then
@@ -18,41 +58,18 @@ else
     echo "=====================IMPORTANT!====================="
     echo "Make sure to exit zsh once its installation is done!"
     echo "===================================================="
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sudo apt install zsh
+    sudo apt install git-core curl fonts-powerline
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    echo "Install fzf-tab plugins"
+    git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 fi
 
-if [ -d "$HOME/.oh-my-zsh/custom/plugins/flatpak" ]; then
-    echo "flatpak-zsh-completion already installed, skipping"
-else
-    echo "Installing flatpak-zsh-completion"
-    git clone https://github.com/bilelmoussaoui/flatpak-zsh-completion "$HOME/.oh-my-zsh/custom/plugins/flatpak"
-fi
-
-if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-    echo "zsh-syntax-highlighting already installed, skipping"
-else
-    echo "Installing zsh-syntax-highlighting"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-fi
-
-if [ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
-    echo "zsh-autosuggestions already installed, skipping"
-else
-    echo "Installing zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-fi
-
-# Installing dotfiles with stow
-
-rm -rf "$HOME/.config/alacritty"
-rm -rf "$HOME/.vimrc"
 rm -rf "$HOME/.zshrc"
+rm -rf "$HOME/.config/nvim/"
+rm -rf "$HOME/.tmux.conf"
 
-[ ! -d "$HOME/.config/kitty" ] && mkdir -p "$HOME/.config/kitty"
-stow -vSt "$HOME/.config/kitty" -d kitty
-[ ! -d "$HOME/.config/alacritty" ] && mkdir -p "$HOME/.config/alacritty"
-stow -vSt "$HOME/.config/alacritty" -d alacritty
-stow -vSt "$HOME/.config/nvim" -d nvim
-stow -vSt "$HOME" vim
-stow -vSt "$HOME" zsh
-
+ln -s "$dotfiles_dir/alacritty/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+ln -s "$dotfiles_dir/zsh/.zshrc" "$HOME/.zshrc"
+[ ! -d "$HOME/.config/nvim" ] && mkdir -p "$HOME/.config/alacritty/"
+ln -s "$dotfiles_dir/tmux/.tmux.conf" "$HOME/.tmux.conf"
