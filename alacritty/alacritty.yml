@@ -1,16 +1,17 @@
 shell:
   program: /bin/zsh
-  # args:
-  #   - -l
-  #   - -c
-  #   - "tmux"
+  args:
+    - -l
+    - -c
+    - "tmux"
 window:
+  position: "None"
   dimensions:
     columns: 0
     lines: 0
   padding:
-    x: 5
-    y: 2
+    x: 0
+    y: 0
 
   dynamic_title: false
   decorations: Full
