@@ -70,6 +70,11 @@ rm -rf "$HOME/.config/nvim/"
 rm -rf "$HOME/.tmux.conf"
 
 ln -s "$dotfiles_dir/alacritty/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+
 ln -s "$dotfiles_dir/zsh/.zshrc" "$HOME/.zshrc"
-[ ! -d "$HOME/.config/nvim" ] && mkdir -p "$HOME/.config/alacritty/"
+
+[ ! -d "$HOME/.config/alacritty" ] && mkdir -p "$HOME/.config/alacritty/"
 ln -s "$dotfiles_dir/tmux/.tmux.conf" "$HOME/.tmux.conf"
+
+[ ! -d "$HOME/.config/nvim" ] && mkdir -p "$HOME/.config/nvim/"
+ln -s "$dotfiles_dir/nvim/init.lua" "$HOME/.config/nvim/init.lua"
