@@ -3,8 +3,9 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.mouse = "a"
 vim.opt.showmode = false
 vim.opt.clipboard = ""
@@ -223,7 +224,31 @@ require("lazy").setup({
 
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+			local util = require("lspconfig.util")
+			-- local server_name = "intelephense"
+			local bin_name = "intelephense"
 			local servers = {
+				intelephense = {
+					cmd = { bin_name, "--stdio" },
+					filetypes = { "php" },
+					root_dir = function(pattern)
+						local cwd = vim.loop.cwd()
+						local root = util.root_pattern("composer.json", ".git")(pattern)
+
+						-- prefer cwd if root is a descendant
+						return util.path.is_descendant(cwd, root) and cwd or root
+					end,
+					init_options = {
+						licenceKey = "000CKL0DIXLFA4U",
+					},
+					settings = {
+						intelephense = {
+							files = {
+								maxSize = 1000000,
+							},
+						},
+					},
+				},
 				lua_ls = {
 					-- cmd = {...},
 					-- filetypes { ...},
@@ -372,20 +397,6 @@ require("lazy").setup({
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
-	},
-
-	{
-		"echasnovski/mini.nvim",
-		config = function()
-			require("mini.ai").setup({ n_lines = 500 })
-			-- require("mini.surround").setup()
-			local statusline = require("mini.statusline")
-			statusline.setup({ use_icons = vim.g.have_nerd_font })
-			---@diagnostic disable-next-line: duplicate-set-field
-			statusline.section_location = function()
-				return "%2l:%-2v"
-			end
-		end,
 	},
 
 	{
