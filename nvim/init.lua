@@ -15,7 +15,7 @@ vim.opt.undofile = false
 vim.opt.ignorecase = false
 vim.opt.smartcase = false
 
-vim.opt.signcolumn = "yes"
+-- vim.opt.signcolumn = "yes"
 
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
@@ -24,9 +24,10 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 vim.opt.inccommand = "split"
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.scrolloff = 10
 vim.opt.hlsearch = true
+vim.opt.laststatus = 3
 
 -- vim.opt.shiftwidth = 2
 -- vim.opt.smartindent = true
@@ -40,6 +41,7 @@ vim.keymap.set("i", "jj", "<ESC>", { noremap = true })
 vim.keymap.set("i", "jl", "<ESC>", { noremap = true })
 
 vim.keymap.set("n", "<ESC>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader><leader>", "<cmd>nohlsearch<CR>")
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
@@ -55,6 +57,24 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+-- your custom
+
+-- local function statusline()
+-- 	local file_info = vim.fn.expand("%:~:.")
+-- 	local file_type = vim.bo.filetype
+-- 	local line_col = string.format("%d:%d", vim.fn.line("."), vim.fn.col("."))
+-- 	local mode = vim.fn.mode()
+--
+-- 	-- Customize the statusline format as desired
+-- 	local statusline_format =
+-- 		string.format(" [File: %s] [Type: %s] [Line/Col: %s] [Mode: %s] ", file_info, file_type, line_col, mode)
+--
+-- 	return statusline_format
+-- end
+--
+-- -- Set the custom statusline
+-- vim.opt.statusline = statusline()
 
 -- autocmd setting
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -129,6 +149,33 @@ require("lazy").setup({
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
+					},
+					["fzf"] = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case", -- this is default
+					},
+				},
+				defaults = {
+					prompt_prefix = "❯ ",
+					selection_caret = "❯ ",
+					sorting_strategy = "ascending",
+					color_devicons = true,
+					layout_strategy = "vertical",
+					layout_config = {
+						prompt_position = "top",
+						horizontal = {
+							width_padding = 0.04,
+							height_padding = 0.1,
+							preview_width = 0,
+						},
+						vertical = {
+							prompt_position = "top",
+							width_padding = 0.15,
+							height_padding = 1,
+							preview_height = 0,
+						},
 					},
 				},
 			})
@@ -259,7 +306,7 @@ require("lazy").setup({
 								callSnippet = "Replace",
 							},
 							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							diagnostics = { disable = { "missing-fields" } },
+							diagnostics = { disable = { "missing-fields" }, globals = { "vim" } },
 						},
 					},
 				},
@@ -295,6 +342,7 @@ require("lazy").setup({
 			},
 			formatters_by_ft = {
 				lua = { "stylua" },
+				php = { "pint" },
 			},
 		},
 	},
@@ -430,14 +478,74 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
 			vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 			vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
-			vim.keymap.set("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
-			vim.keymap.set("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+		end,
+	},
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			presets = {
+				bottom_search = false, -- use a classic bottom cmdline for search
+				command_palette = true, -- position the cmdline and popupmenu together
+				long_message_to_split = true, -- long messages will be sent to a split
+				inc_rename = false, -- enables an input dialog for inc-rename.nvim
+				lsp_doc_border = false, -- add a border to hover docs and signature help
+			},
+		},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		event = "VimEnter",
+		config = function()
+			require("lualine").setup({
+				options = {
+					icons_enabled = true,
+					theme = "auto",
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						statusline = {},
+						winbar = {},
+					},
+					ignore_focus = {},
+					always_divide_middle = true,
+					globalstatus = false,
+					refresh = {
+						statusline = 1000,
+						tabline = 1000,
+						winbar = 1000,
+					},
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { "filename" },
+					lualine_x = { "encoding", "fileformat", "filetype" },
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {},
+			})
+			vim.opt.laststatus = 3
 		end,
 	},
 }, {
 	ui = {
-		-- If you have a Nerd Font, set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table
 		icons = vim.g.have_nerd_font and {} or {
 			cmd = "⌘",
 			config = "🛠",
