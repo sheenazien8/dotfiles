@@ -21,7 +21,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z composer fzf laravel fzf-tab)
+plugins=(git z composer fzf laravel fzf-tab zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -143,3 +143,50 @@ export PHPV="php -r 'echo phpversion()."\n";'"
 
 export FZF_BASE="$HOME/.fzf"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Lando
+export PATH="/Users/sheenazien8/.lando/bin${PATH+:$PATH}"; #landopath
+# Flutter path
+export PATH=$HOME/Documents/apps/flutter/bin:$PATH
+# Android SDK Path
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
+
+
+# Herd injected PHP 8.3 configuration.
+export HERD_PHP_83_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/83/"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/sheenazien8/Library/Application Support/Herd/bin/":$PATH
+
+
+# Herd injected PHP 8.2 configuration.
+export HERD_PHP_82_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/82/"
+
+
+# Herd injected PHP 8.1 configuration.
+export HERD_PHP_81_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/81/"
+
+
+# Herd injected PHP 8.0 configuration.
+export HERD_PHP_80_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/80/"
+
+
+# Herd injected PHP 7.4 configuration.
+export HERD_PHP_74_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/74/"
+
+
+export XDG_PICTURES_DIR="$HOME/Pictures"
+
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+export PATH=$PATH:/usr/local/mysql/bin
+
+# pnpm
+export PNPM_HOME="/Users/sheenazien8/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

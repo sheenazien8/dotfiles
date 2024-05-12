@@ -12,8 +12,9 @@ vim.opt.clipboard = ""
 vim.opt.breakindent = true
 vim.opt.undofile = false
 
-vim.opt.ignorecase = false
-vim.opt.smartcase = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.wrap = false
 
 -- vim.opt.signcolumn = "yes"
 
@@ -58,25 +59,13 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
--- your custom
-
--- local function statusline()
--- 	local file_info = vim.fn.expand("%:~:.")
--- 	local file_type = vim.bo.filetype
--- 	local line_col = string.format("%d:%d", vim.fn.line("."), vim.fn.col("."))
--- 	local mode = vim.fn.mode()
---
--- 	-- Customize the statusline format as desired
--- 	local statusline_format =
--- 		string.format(" [File: %s] [Type: %s] [Line/Col: %s] [Mode: %s] ", file_info, file_type, line_col, mode)
---
--- 	return statusline_format
--- end
---
--- -- Set the custom statusline
--- vim.opt.statusline = statusline()
-
 -- autocmd setting
+vim.filetype.add({
+	pattern = {
+		[".*%.blade%.php"] = "blade",
+	},
+})
+
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -97,6 +86,15 @@ require("lazy").setup({
 
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 	"tpope/vim-fugitive",
+	{
+		"tpope/vim-projectionist",
+		dependencies = {
+			"tpope/vim-dispatch",
+		},
+		config = function()
+			require("user.plugins.projectionist")
+		end,
+	},
 
 	{ "numToStr/Comment.nvim", opts = {} },
 	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -158,6 +156,7 @@ require("lazy").setup({
 					},
 				},
 				defaults = {
+					file_ignore_patterns = { "%.git/", "node_modules/", "vendor/" },
 					prompt_prefix = "❯ ",
 					selection_caret = "❯ ",
 					sorting_strategy = "ascending",
@@ -310,6 +309,26 @@ require("lazy").setup({
 						},
 					},
 				},
+				emmet_ls = {
+					filetypes = {
+						"css",
+						"eruby",
+						"html",
+						"javascript",
+						"javascriptreact",
+						"less",
+						"sass",
+						"scss",
+						"svelte",
+						"pug",
+						"typescriptreact",
+						"vue",
+						"blade",
+					},
+					html_filetypes = { "xml", "html", "blade" },
+					css_filetypes = { "css", "html", "blade" },
+				},
+				phpactor = {},
 			}
 
 			require("mason").setup()
@@ -351,7 +370,6 @@ require("lazy").setup({
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
-			-- Snippet Engine & its associated nvim-cmp source
 			{
 				"L3MON4D3/LuaSnip",
 				build = (function()
@@ -369,6 +387,7 @@ require("lazy").setup({
 			-- See `:help cmp`
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			require("luasnip/loaders/from_snipmate").lazy_load()
 			luasnip.config.setup({})
 
 			cmp.setup({
@@ -379,6 +398,27 @@ require("lazy").setup({
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
 				mapping = cmp.mapping.preset.insert({
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_jumpable() then
+							luasnip.expand_or_jump()
+						-- elseif has_words_before() then
+						-- 	cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 					-- Select the [n]ext item
 					["<C-n>"] = cmp.mapping.select_next_item(),
 					-- Select the [p]revious item
@@ -400,6 +440,7 @@ require("lazy").setup({
 					["<CR>"] = cmp.mapping.confirm({ select = true }), --
 				}),
 				sources = {
+					-- { name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
@@ -450,16 +491,98 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
 		opts = {
 			ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "php", "go", "tsx" },
 			-- Autoinstall languages that are not installed
 			auto_install = true,
-			highlight = { enable = true },
+			highlight = { enable = true, additional_vim_regex_highliting = true },
 			indent = { enable = true },
+			-- context_commentstring = {
+			-- 	enable = true,
+			-- },
+			textobjects = {
+				select = {
+					enable = true,
+					lookahead = true,
+					keymaps = {
+						["if"] = "@function.inner",
+						["af"] = "@function.outer",
+						["ia"] = "@parameter.inner",
+						["aa"] = "@parameter.outer",
+						["ic"] = "@class.inner",
+						["ac"] = "@class.outer",
+						["ii"] = "@conditional.inner",
+						["ai"] = "@conditional.outer",
+						["il"] = "@loop.inner",
+						["al"] = "@loop.outer",
+						["at"] = "@comment.outer",
+					},
+				},
+				swap = {
+					enable = true,
+					swap_next = {
+						["<leader>a"] = "@parameter.inner",
+					},
+					swap_previous = {
+						["<leader>A"] = "@parameter.inner",
+					},
+				},
+				move = {
+					enable = true,
+					set_jumps = true, -- whether to set jumps in the jumplist
+					goto_next_start = {
+						["]m"] = "@function.outer",
+						["]]"] = { query = "@class.outer", desc = "Next class start" },
+						--
+						-- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
+						["]o"] = "@loop.*",
+						-- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+						--
+						-- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+						-- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+						["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+						["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+					},
+					goto_next_end = {
+						["]M"] = "@function.outer",
+						["]["] = "@class.outer",
+					},
+					goto_previous_start = {
+						["[m"] = "@function.outer",
+						["[["] = "@class.outer",
+					},
+					goto_previous_end = {
+						["[M"] = "@function.outer",
+						["[]"] = "@class.outer",
+					},
+					-- Below will go to either the start or the end, whichever is closer.
+					-- Use if you want more granular movements
+					-- Make it even more gradual by adding multiple queries and regex.
+					goto_next = {
+						["]i"] = "@conditional.outer",
+					},
+					goto_previous = {
+						["[i"] = "@conditional.outer",
+					},
+				},
+			},
 		},
 		config = function(_, opts)
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup(opts)
+			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+			parser_config.blade = {
+				install_info = {
+					url = "https://github.com/EmranMR/tree-sitter-blade",
+					files = { "src/parser.c" },
+					branch = "main",
+				},
+				filetype = "blade",
+			}
 		end,
 	},
 	{
@@ -501,6 +624,13 @@ require("lazy").setup({
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		event = "VimEnter",
 		config = function()
+			local function macro_recording()
+				local mode = require("noice").api.statusline.mode.get()
+				if mode then
+					return string.match(mode, "^recording @.*") or ""
+				end
+				return ""
+			end
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
@@ -523,7 +653,7 @@ require("lazy").setup({
 				sections = {
 					lualine_a = { "mode" },
 					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = { "filename" },
+					lualine_c = { "filename", macro_recording },
 					lualine_x = { "encoding", "fileformat", "filetype" },
 					lualine_y = { "progress" },
 					lualine_z = { "location" },
@@ -543,6 +673,357 @@ require("lazy").setup({
 			})
 			vim.opt.laststatus = 3
 		end,
+	},
+	-- {
+	-- 	"nvim-tree/nvim-tree.lua",
+	-- 	version = "*",
+	-- 	lazy = false,
+	-- 	dependencies = {
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 	},
+	-- 	config = function()
+	-- 		require("nvim-tree").setup({
+	-- 			on_attach = "default",
+	-- 			hijack_netrw = true,
+	-- 			hijack_unnamed_buffer_when_opening = false,
+	-- 			root_dirs = {},
+	-- 			select_prompts = false,
+	-- 			sort = {
+	-- 				sorter = "name",
+	-- 				folders_first = true,
+	-- 				files_first = false,
+	-- 			},
+	-- 			view = {
+	-- 				cursorline = true,
+	-- 				debounce_delay = 15,
+	-- 				side = "right",
+	-- 			},
+	-- 			renderer = {
+	-- 				add_trailing = false,
+	-- 				group_empty = false,
+	-- 				full_name = false,
+	-- 				root_folder_label = ":~:s?$?/..?",
+	-- 				indent_width = 2,
+	-- 				special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+	-- 				symlink_destination = true,
+	-- 				highlight_git = "none",
+	-- 				highlight_diagnostics = "none",
+	-- 				highlight_opened_files = "none",
+	-- 				highlight_modified = "none",
+	-- 				highlight_bookmarks = "none",
+	-- 				highlight_clipboard = "name",
+	-- 				indent_markers = {
+	-- 					enable = false,
+	-- 					inline_arrows = true,
+	-- 					icons = {
+	-- 						corner = "└",
+	-- 						edge = "│",
+	-- 						item = "│",
+	-- 						bottom = "─",
+	-- 						none = " ",
+	-- 					},
+	-- 				},
+	-- 				icons = {
+	-- 					web_devicons = {
+	-- 						file = {
+	-- 							enable = true,
+	-- 							color = true,
+	-- 						},
+	-- 						folder = {
+	-- 							enable = false,
+	-- 							color = true,
+	-- 						},
+	-- 					},
+	-- 					git_placement = "before",
+	-- 					modified_placement = "after",
+	-- 					diagnostics_placement = "signcolumn",
+	-- 					bookmarks_placement = "signcolumn",
+	-- 					padding = " ",
+	-- 					symlink_arrow = " ➛ ",
+	-- 					show = {
+	-- 						file = true,
+	-- 						folder = true,
+	-- 						folder_arrow = true,
+	-- 						git = true,
+	-- 						modified = true,
+	-- 						diagnostics = true,
+	-- 						bookmarks = true,
+	-- 					},
+	-- 					glyphs = {
+	-- 						default = "",
+	-- 						symlink = "",
+	-- 						bookmark = "󰆤",
+	-- 						modified = "●",
+	-- 						folder = {
+	-- 							arrow_closed = "",
+	-- 							arrow_open = "",
+	-- 							default = "",
+	-- 							open = "",
+	-- 							empty = "",
+	-- 							empty_open = "",
+	-- 							symlink = "",
+	-- 							symlink_open = "",
+	-- 						},
+	-- 						git = {
+	-- 							unstaged = "✗",
+	-- 							staged = "✓",
+	-- 							unmerged = "",
+	-- 							renamed = "➜",
+	-- 							untracked = "★",
+	-- 							deleted = "",
+	-- 							ignored = "◌",
+	-- 						},
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 			hijack_directories = {
+	-- 				enable = true,
+	-- 				auto_open = true,
+	-- 			},
+	-- 			update_focused_file = {
+	-- 				enable = false,
+	-- 				update_root = false,
+	-- 				ignore_list = {},
+	-- 			},
+	-- 			system_open = {
+	-- 				cmd = "",
+	-- 				args = {},
+	-- 			},
+	-- 			git = {
+	-- 				enable = true,
+	-- 				show_on_dirs = true,
+	-- 				show_on_open_dirs = true,
+	-- 				disable_for_dirs = {},
+	-- 				timeout = 400,
+	-- 				cygwin_support = false,
+	-- 			},
+	-- 			diagnostics = {
+	-- 				enable = true,
+	-- 				show_on_dirs = true,
+	-- 			},
+	-- 			experimental = {},
+	-- 		})
+	-- 		vim.keymap.set("n", "<C-\\>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
+	-- 		vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
+	-- 	end,
+	-- },
+	-- {
+	-- 	"zbirenbaum/copilot.lua",
+	-- 	cmd = "Copilot",
+	-- 	event = "InsertEnter",
+	-- 	config = function()
+	-- 		require("copilot").setup({
+	-- 			suggestion = { enabled = false },
+	-- 			panel = { enabled = false },
+	-- 		})
+	-- 	end,
+	-- },
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
+	},
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {
+			-- configurations go here
+		},
+	},
+	{ "wakatime/vim-wakatime", lazy = false },
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = "kevinhwang91/promise-async",
+		event = "VeryLazy",
+		config = function()
+			vim.o.foldcolumn = "0" -- '0' is not bad
+			vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+			vim.o.foldlevelstart = 99
+			vim.o.foldenable = true
+			-- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+			local handler = function(virtText, lnum, endLnum, width, truncate)
+				local newVirtText = {}
+				local suffix = (" 󰁂 %d "):format(endLnum - lnum)
+				local sufWidth = vim.fn.strdisplaywidth(suffix)
+				local targetWidth = width - sufWidth
+				local curWidth = 0
+				for _, chunk in ipairs(virtText) do
+					local chunkText = chunk[1]
+					local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+					if targetWidth > curWidth + chunkWidth then
+						table.insert(newVirtText, chunk)
+					else
+						chunkText = truncate(chunkText, targetWidth - curWidth)
+						local hlGroup = chunk[2]
+						table.insert(newVirtText, { chunkText, hlGroup })
+						chunkWidth = vim.fn.strdisplaywidth(chunkText)
+						-- str width returned from truncate() may less than 2nd argument, need padding
+						if curWidth + chunkWidth < targetWidth then
+							suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+						end
+						break
+					end
+					curWidth = curWidth + chunkWidth
+				end
+				table.insert(newVirtText, { suffix, "MoreMsg" })
+				return newVirtText
+			end
+			require("ufo").setup({
+				fold_virt_text_handler = handler,
+				close_fold_kinds_for_ft = {
+					default = { "imports", "comment" },
+				},
+				-- provider_selector = function()
+				-- 	return { "treesitter", "indent" }
+				-- end,
+			})
+		end,
+	},
+	{
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"V13Axel/neotest-pest",
+			"olimorris/neotest-phpunit",
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-pest")({
+						-- Ignore these directories when looking for tests
+						-- -- Default: { "vendor", "node_modules" }
+						ignore_dirs = { "vendor", "node_modules" },
+
+						-- Ignore any projects containing "phpunit-only.tests"
+						-- -- Default: {}
+						root_ignore_files = { "phpunit-only.tests" },
+
+						-- Specify suffixes for files that should be considered tests
+						-- -- Default: { "Test.php" }
+						test_file_suffixes = { "Test.php", "_test.php", "PestTest.php" },
+
+						-- Sail not properly detected? Explicitly enable it.
+						-- -- Default: function() that checks for sail presence
+						sail_enabled = function()
+							return false
+						end,
+
+						-- Custom sail executable. Not running in Sail, but running bare Docker?
+						-- Set `sail_enabled` = true and `sail_executable` to { "docker", "exec", "[somecontainer]" }
+						-- -- Default: "vendor/bin/sail"
+						sail_executable = "vendor/bin/sail",
+
+						-- Custom sail project root path.
+						-- -- Default: "/var/www/html"
+						sail_project_path = "/var/www/html",
+
+						-- Custom pest binary.
+						-- -- Default: function that checks for sail presence
+						pest_cmd = "vendor/bin/pest",
+
+						-- Run N tests in parallel, <=1 doesn't pass --parallel to pest at all
+						-- -- Default: 0
+						parallel = 16,
+
+						-- Enable ["compact" output printer](https://pestphp.com/docs/optimizing-tests#content-compact-printer)
+						-- -- Default: false
+						compact = false,
+					}),
+					require("neotest-phpunit"),
+				},
+			})
+			vim.keymap.set("n", "<leader>nt", "<cmd>lua require('neotest').run.run()<CR>")
+			vim.keymap.set("n", "<leader>ns", "<cmd>Neotest summary<CR>")
+		end,
+	},
+	{
+		"akinsho/flutter-tools.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+		config = function()
+			require("flutter-tools").setup({})
+			require("telescope").load_extension("flutter")
+			vim.keymap.set("n", "<leader>tf", "<cmd>Telescope flutter commands<CR>", { desc = "[S]earch [H]elp" })
+		end,
+	},
+	{
+		"stevearc/oil.nvim",
+		opts = {},
+		-- Optional dependencies
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("oil").setup({
+				view_options = {
+					show_hidden = true,
+				},
+			})
+			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+		end,
+	},
+	{
+		"roobert/tailwindcss-colorizer-cmp.nvim",
+		-- optionally, override the default options:
+		config = function()
+			require("tailwindcss-colorizer-cmp").setup({
+				color_square_width = 2,
+			})
+		end,
+	},
+	-- {
+	-- 	"phpactor/phpactor",
+	-- 	build = "composer install --no-dev --optimize-autoloader",
+	-- 	config = function()
+	-- 		vim.keymap.set("n", "<Leader>pm", ":PhpactorContextMenu<CR>")
+	-- 		vim.keymap.set("n", "<Leader>pn", ":PhpactorClassNew<CR>")
+	-- 	end,
+	-- },
+	{
+		"gbprod/phpactor.nvim",
+		build = function()
+			require("phpactor.handler.update")()
+		end,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		opts = {
+			-- you're options coes here
+		},
+	},
+	{
+		"voldikss/vim-floaterm",
+		config = function()
+			vim.g.floaterm_width = 0.8
+			vim.g.floaterm_height = 0.8
+			vim.keymap.set("n", "<c-t>", ":FloatermToggle<CR>")
+			vim.keymap.set("t", "<c-t>", "<C-\\><C-n>:FloatermToggle<CR>")
+			vim.cmd([[
+      highlight link Floaterm CursorLine
+      highlight link FloatermBorder CursorLineBg
+    ]])
+		end,
+	},
+	{
+		"jwalton512/vim-blade",
+	},
+	{
+		"barrett-ruth/live-server.nvim",
+		build = "pnpm add -g live-server",
+		cmd = { "LiveServerStart", "LiveServerStop" },
+		config = true,
 	},
 }, {
 	ui = {
