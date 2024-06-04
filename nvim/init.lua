@@ -109,7 +109,7 @@ require("lazy").setup({
 			},
 		},
 	},
-	{ -- Useful plugin to show you pending keybinds.
+	--[[ { -- Useful plugin to show you pending keybinds.
 		"folke/which-key.nvim",
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		config = function() -- This is the function that runs, AFTER loading
@@ -123,7 +123,7 @@ require("lazy").setup({
 				["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
 			})
 		end,
-	},
+	}, ]]
 
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
@@ -328,7 +328,8 @@ require("lazy").setup({
 					html_filetypes = { "xml", "html", "blade" },
 					css_filetypes = { "css", "html", "blade" },
 				},
-				phpactor = {},
+				tsserver = {},
+				-- phpactor = {},
 			}
 
 			require("mason").setup()
@@ -444,6 +445,13 @@ require("lazy").setup({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
+					{ name = "buffer" },
+				},
+			})
+			cmp.setup.filetype({ "sql" }, {
+				sources = {
+					{ name = "vim-dadbod-completion" },
+					{ name = "buffer" },
 				},
 			})
 		end,
@@ -603,7 +611,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 		end,
 	},
-	{
+	--[[ {
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -618,7 +626,7 @@ require("lazy").setup({
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 		},
-	},
+	}, ]]
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -672,156 +680,6 @@ require("lazy").setup({
 				extensions = {},
 			})
 			vim.opt.laststatus = 3
-		end,
-	},
-	-- {
-	-- 	"nvim-tree/nvim-tree.lua",
-	-- 	version = "*",
-	-- 	lazy = false,
-	-- 	dependencies = {
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 	},
-	-- 	config = function()
-	-- 		require("nvim-tree").setup({
-	-- 			on_attach = "default",
-	-- 			hijack_netrw = true,
-	-- 			hijack_unnamed_buffer_when_opening = false,
-	-- 			root_dirs = {},
-	-- 			select_prompts = false,
-	-- 			sort = {
-	-- 				sorter = "name",
-	-- 				folders_first = true,
-	-- 				files_first = false,
-	-- 			},
-	-- 			view = {
-	-- 				cursorline = true,
-	-- 				debounce_delay = 15,
-	-- 				side = "right",
-	-- 			},
-	-- 			renderer = {
-	-- 				add_trailing = false,
-	-- 				group_empty = false,
-	-- 				full_name = false,
-	-- 				root_folder_label = ":~:s?$?/..?",
-	-- 				indent_width = 2,
-	-- 				special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
-	-- 				symlink_destination = true,
-	-- 				highlight_git = "none",
-	-- 				highlight_diagnostics = "none",
-	-- 				highlight_opened_files = "none",
-	-- 				highlight_modified = "none",
-	-- 				highlight_bookmarks = "none",
-	-- 				highlight_clipboard = "name",
-	-- 				indent_markers = {
-	-- 					enable = false,
-	-- 					inline_arrows = true,
-	-- 					icons = {
-	-- 						corner = "└",
-	-- 						edge = "│",
-	-- 						item = "│",
-	-- 						bottom = "─",
-	-- 						none = " ",
-	-- 					},
-	-- 				},
-	-- 				icons = {
-	-- 					web_devicons = {
-	-- 						file = {
-	-- 							enable = true,
-	-- 							color = true,
-	-- 						},
-	-- 						folder = {
-	-- 							enable = false,
-	-- 							color = true,
-	-- 						},
-	-- 					},
-	-- 					git_placement = "before",
-	-- 					modified_placement = "after",
-	-- 					diagnostics_placement = "signcolumn",
-	-- 					bookmarks_placement = "signcolumn",
-	-- 					padding = " ",
-	-- 					symlink_arrow = " ➛ ",
-	-- 					show = {
-	-- 						file = true,
-	-- 						folder = true,
-	-- 						folder_arrow = true,
-	-- 						git = true,
-	-- 						modified = true,
-	-- 						diagnostics = true,
-	-- 						bookmarks = true,
-	-- 					},
-	-- 					glyphs = {
-	-- 						default = "",
-	-- 						symlink = "",
-	-- 						bookmark = "󰆤",
-	-- 						modified = "●",
-	-- 						folder = {
-	-- 							arrow_closed = "",
-	-- 							arrow_open = "",
-	-- 							default = "",
-	-- 							open = "",
-	-- 							empty = "",
-	-- 							empty_open = "",
-	-- 							symlink = "",
-	-- 							symlink_open = "",
-	-- 						},
-	-- 						git = {
-	-- 							unstaged = "✗",
-	-- 							staged = "✓",
-	-- 							unmerged = "",
-	-- 							renamed = "➜",
-	-- 							untracked = "★",
-	-- 							deleted = "",
-	-- 							ignored = "◌",
-	-- 						},
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			hijack_directories = {
-	-- 				enable = true,
-	-- 				auto_open = true,
-	-- 			},
-	-- 			update_focused_file = {
-	-- 				enable = false,
-	-- 				update_root = false,
-	-- 				ignore_list = {},
-	-- 			},
-	-- 			system_open = {
-	-- 				cmd = "",
-	-- 				args = {},
-	-- 			},
-	-- 			git = {
-	-- 				enable = true,
-	-- 				show_on_dirs = true,
-	-- 				show_on_open_dirs = true,
-	-- 				disable_for_dirs = {},
-	-- 				timeout = 400,
-	-- 				cygwin_support = false,
-	-- 			},
-	-- 			diagnostics = {
-	-- 				enable = true,
-	-- 				show_on_dirs = true,
-	-- 			},
-	-- 			experimental = {},
-	-- 		})
-	-- 		vim.keymap.set("n", "<C-\\>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-	-- 		vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle nvim tree" })
-	-- 	end,
-	-- },
-	-- {
-	-- 	"zbirenbaum/copilot.lua",
-	-- 	cmd = "Copilot",
-	-- 	event = "InsertEnter",
-	-- 	config = function()
-	-- 		require("copilot").setup({
-	-- 			suggestion = { enabled = false },
-	-- 			panel = { enabled = false },
-	-- 		})
-	-- 	end,
-	-- },
-	{
-		"zbirenbaum/copilot-cmp",
-		config = function()
-			require("copilot_cmp").setup()
 		end,
 	},
 	{
@@ -880,9 +738,6 @@ require("lazy").setup({
 				close_fold_kinds_for_ft = {
 					default = { "imports", "comment" },
 				},
-				-- provider_selector = function()
-				-- 	return { "treesitter", "indent" }
-				-- end,
 			})
 		end,
 	},
@@ -900,46 +755,19 @@ require("lazy").setup({
 			require("neotest").setup({
 				adapters = {
 					require("neotest-pest")({
-						-- Ignore these directories when looking for tests
-						-- -- Default: { "vendor", "node_modules" }
 						ignore_dirs = { "vendor", "node_modules" },
-
-						-- Ignore any projects containing "phpunit-only.tests"
-						-- -- Default: {}
 						root_ignore_files = { "phpunit-only.tests" },
-
-						-- Specify suffixes for files that should be considered tests
-						-- -- Default: { "Test.php" }
 						test_file_suffixes = { "Test.php", "_test.php", "PestTest.php" },
-
-						-- Sail not properly detected? Explicitly enable it.
-						-- -- Default: function() that checks for sail presence
 						sail_enabled = function()
 							return false
 						end,
-
-						-- Custom sail executable. Not running in Sail, but running bare Docker?
-						-- Set `sail_enabled` = true and `sail_executable` to { "docker", "exec", "[somecontainer]" }
-						-- -- Default: "vendor/bin/sail"
 						sail_executable = "vendor/bin/sail",
-
-						-- Custom sail project root path.
-						-- -- Default: "/var/www/html"
 						sail_project_path = "/var/www/html",
-
-						-- Custom pest binary.
-						-- -- Default: function that checks for sail presence
 						pest_cmd = "vendor/bin/pest",
-
-						-- Run N tests in parallel, <=1 doesn't pass --parallel to pest at all
-						-- -- Default: 0
 						parallel = 16,
-
-						-- Enable ["compact" output printer](https://pestphp.com/docs/optimizing-tests#content-compact-printer)
-						-- -- Default: false
 						compact = false,
 					}),
-					require("neotest-phpunit"),
+					-- require("neotest-phpunit"),
 				},
 			})
 			vim.keymap.set("n", "<leader>nt", "<cmd>lua require('neotest').run.run()<CR>")
@@ -1000,7 +828,10 @@ require("lazy").setup({
 			"neovim/nvim-lspconfig",
 		},
 		opts = {
-			-- you're options coes here
+			lspconfig = {
+				enabled = false,
+				options = {},
+			},
 		},
 	},
 	{
@@ -1024,6 +855,11 @@ require("lazy").setup({
 		build = "pnpm add -g live-server",
 		cmd = { "LiveServerStart", "LiveServerStop" },
 		config = true,
+	},
+	{
+		"tpope/vim-dadbod",
+		"kristijanhusak/vim-dadbod-completion",
+		"kristijanhusak/vim-dadbod-ui",
 	},
 }, {
 	ui = {
