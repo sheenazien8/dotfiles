@@ -1,0 +1,50 @@
+# custom_cursor_colors = true
+import = ["/Users/sheenazien8/.config/alacritty/themes/ayu_dark.toml"]
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[cursor]
+style = "Beam"
+
+# [env]
+# TERM = "screen-256color"
+
+[font]
+size = 14.5
+
+[font.normal]
+family = "iosevka nf"
+style = "Regular"
+
+[mouse]
+hide_when_typing = false
+
+# [shell]
+# args = ["-l", "-c", "tmux"]
+# program = "/bin/zsh"
+
+[window]
+# decorations = "Buttonless"
+dynamic_title = false
+# gtk_theme_variant = "dark"
+opacity = 1
+position = "None"
+startup_mode = "Windowed"
+title = "Alacritty!"
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.dimensions]
+columns = 0
+lines = 0
+
+[window.padding]
+x = 0
+y = 0
+
+# documentation link
+# https://alacritty.org/config-alacritty.html
+
