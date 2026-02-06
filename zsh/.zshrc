@@ -234,8 +234,8 @@ function update_tmux_window_name() {
   fi
 }
 autoload -U add-zsh-hook
-add-zsh-hook chpwd update_tmux_window_name
-update_tmux_window_name  # call once on shell start
+# add-zsh-hook chpwd update_tmux_window_name
+# update_tmux_window_name  # call once on shell start
 
 tmux-move-tab-to-session() {
   local current_session current_window_index window_name
