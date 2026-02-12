@@ -23,9 +23,19 @@ startup_script = "npm run build && npm run start"
 name = "axis"
 path = "~/Documents/Code/antikode/axis-mw"
 startup_command = "update_tmux_window_name"
-windows = ["server"]
+windows = ["server", "axis-cms"]
 
 [[window]]
 name = "server"
 path = "~/Documents/Code/antikode/axis-mw"
 startup_script = "make dev"
+
+[[window]]
+name = "axis-cms"
+path = "~/Documents/Code/antikode/axis-cms"
+startup_script = "git checkout release && git pull origin release"
+
+[[session]]
+name = "lakasir-project"
+path = "~/Documents/Code/lakasir-project/lakasir"
+startup_command = "update_tmux_window_name"
