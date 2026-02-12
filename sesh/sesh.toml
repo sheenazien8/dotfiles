@@ -1,0 +1,31 @@
+[[session]]
+name = "bpkb"
+path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
+startup_command = "update_tmux_window_name"
+windows = ["docs", "database", "bisma_fe" ]
+
+[[window]]
+name = "docs"
+startup_script = "make dev"
+path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
+
+[[window]]
+name = "database"
+startup_script = "harlequin -P bpkp"
+path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
+
+[[window]]
+name = "bisma_fe"
+path = "~/Documents/Code/my-project/bpkb/bisma_fe"
+startup_script = "npm run build && npm run start"
+
+[[session]]
+name = "axis"
+path = "~/Documents/Code/antikode/axis-mw"
+startup_command = "update_tmux_window_name"
+windows = ["server"]
+
+[[window]]
+name = "server"
+path = "~/Documents/Code/antikode/axis-mw"
+startup_script = "make dev"
