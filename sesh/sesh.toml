@@ -11,7 +11,6 @@ path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 
 [[window]]
 name = "database"
-startup_script = "harlequin -P bpkp"
 path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 
 [[window]]
@@ -38,4 +37,25 @@ startup_script = "git checkout release && git pull origin release"
 [[session]]
 name = "lakasir-project"
 path = "~/Documents/Code/lakasir-project/lakasir"
+startup_command = "update_tmux_window_name"
+
+[[session]]
+name = "antikode"
+path = "~/Documents/Code/antikode/agung-toyota-cms"
+startup_command = "update_tmux_window_name"
+windows = ["artotel-cms", "kahf-cms"]
+
+[[window]]
+name = "artotel-cms"
+path = "~/Documents/Code/antikode/artotel-cms"
+startup_script = "git checkout release && git pull origin release"
+
+[[window]]
+name = "kahf-cms"
+path = "~/Documents/Code/antikode/kahf-cms"
+startup_script = "git checkout release && git pull origin release"
+
+[[session]]
+name = "fun"
+path = "~/Documents/Code/dotfiles"
 startup_command = "update_tmux_window_name"
