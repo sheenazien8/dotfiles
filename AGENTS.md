@@ -27,5 +27,5 @@
 - Don't commit your changes unless user requuest it
 
 ## Databases
+- You have to use mcp when you need to fetch the database schema
 - Always prioritize fetch the data using mcp if available, before grep the code for knowing the schema
-
