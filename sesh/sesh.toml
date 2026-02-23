@@ -55,6 +55,11 @@ name = "kahf-cms"
 path = "~/Documents/Code/antikode/kahf-cms"
 startup_script = "git checkout release && git pull origin release"
 
+[[window]]
+name = "kahf-cms"
+path = "~/Documents/Code/antikode/kahf-cms"
+startup_script = "git checkout release && git pull origin release"
+
 [[session]]
 name = "fun"
 path = "~/Documents/Code/dotfiles"
