@@ -2,7 +2,7 @@
 name = "bpkb"
 path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 startup_command = "update_tmux_window_name"
-windows = ["docs", "database", "bisma_fe" ]
+windows = ["docs", "database", "bisma_fe", "bisma_old"]
 
 [[window]]
 name = "docs"
@@ -17,6 +17,10 @@ path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 name = "bisma_fe"
 path = "~/Documents/Code/my-project/bpkb/bisma_fe"
 startup_script = "npm run build && npm run start"
+
+[[window]]
+name = "bisma_old"
+path = "~/Documents/Code/my-project/bpkb/bisma_old"
 
 [[session]]
 name = "axis"
@@ -43,7 +47,7 @@ startup_command = "update_tmux_window_name"
 name = "antikode"
 path = "~/Documents/Code/antikode/agung-toyota-cms"
 startup_command = "update_tmux_window_name"
-windows = ["artotel-cms", "kahf-cms"]
+windows = ["artotel-cms", "kahf-cms", "anticms-v3", "sia-penjurian"]
 
 [[window]]
 name = "artotel-cms"
