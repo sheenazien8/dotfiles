@@ -337,3 +337,8 @@ _mysqlexec() {
 
 compdef _mysqlexec mysqlexec
 source "$HOME/.cargo/env"
+
+# Added by Antigravity
+export PATH="/Users/sheenazien8/.antigravity/antigravity/bin:$PATH"
+# export OLLAMA_HOST=https://ollama.com
+export OLLAMA_HOST=0.0.0.0:11435
