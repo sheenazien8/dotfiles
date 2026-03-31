@@ -47,7 +47,7 @@ startup_command = "update_tmux_window_name"
 name = "antikode"
 path = "~/Documents/Code/antikode/agung-toyota-cms"
 startup_command = "update_tmux_window_name"
-windows = ["artotel-cms", "kahf-cms", "anticms-v3", "sia-penjurian"]
+windows = ["artotel-cms", "kahf-cms", "anticms-v3", "sia-penjurian", "sia-regis-api"]
 
 [[window]]
 name = "artotel-cms"
@@ -65,7 +65,11 @@ path = "~/Documents/Code/antikode/anticms-v3"
 
 [[window]]
 name = "sia-penjurian"
-path = "~/Documents/Code/antikode/sia-penjurian"
+path = "~/Documents/Code/antikode/astra/sia-penjurian"
+
+[[window]]
+name = "sia-regis-api"
+path = "~/Documents/Code/antikode/astra/sia-regis-api"
 
 [[session]]
 name = "fun"
