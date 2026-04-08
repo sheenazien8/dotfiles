@@ -23,6 +23,9 @@
 - Don't explain obvious things
 - Ask clarifying questions if requirements are unclear
 
+## Skils
+- please read all of the available skill, and use that if you need that
+
 ## Git 
 - Don't commit your changes unless user requuest it
 
