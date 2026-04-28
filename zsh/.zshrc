@@ -10,59 +10,6 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
-function homestead() {
-    ( cd ~/Homestead && vagrant $* )
-}
-function ubuntu() {
-    ( cd ~/ubuntu16 && vagrant $* )
-}
-composer-link() {
-    composer config repositories.local '{"type": "path", "url": "'$1'"}' --file composer.json
-}
-
-function switch-php() {
-    valet stop; sudo update-alternatives --set php /usr/bin/php$1; rm -f ~/.valet/valet.sock; valet install; valet use $1;
-}
-
-httpgrep() {
-  local selected key cmd
-
-  selected=$(history 1 \
-    | tail -r \
-    | grep -E 'http .*((http(s)?://)|(:[0-9]+/))' \
-    | awk '{$1=""; sub(/^ +/, ""); print}' \
-    | fzf --ansi --no-sort --height=40% --reverse --prompt="http> " \
-          --expect=enter,ctrl-r)
-
-  key=$(head -n1 <<< "$selected")    # which key pressed
-  cmd=$(tail -n+2 <<< "$selected")   # actual command
-
-  if [[ -z "$cmd" ]]; then
-    return
-  fi
-
-  echo "🔎 Selected command:"
-  echo "$cmd"
-  echo "key pressed: $key"
-
-  if [[ "$key" == "enter" ]]; then
-    # Copy to clipboard
-    echo -n "$cmd" | pbcopy
-    echo "✅ Copied to clipboard"
-  elif [[ "$key" == "ctrl-r" ]]; then
-    # Run the command
-    echo "⚡ Running:"
-    eval "$cmd"
-  fi
-}
-
-# Register widget
-zle -N httpgrep
-
-# Bind Ctrl+G
-bindkey '^G' httpgrep
-
-
 # alias l='lsd -l'
 # alias la='lsd -a'
 # alias ls='lsd'
@@ -219,9 +166,6 @@ export NVIM_CONFIG=~/.config/nvim
 
 export HERD_PHP_84_INI_SCAN_DIR="/Users/sheenazien8/Library/Application Support/Herd/config/php/84/"
 
-. "$HOME/.limbo/env"
-
-
 function update_tmux_session_name() {
   if [ -n "$TMUX" ]; then
     tmux rename-session "$(basename "$PWD")"
@@ -271,20 +215,6 @@ export LANG=en_US.UTF-8
 export LC_CTYPE=UTF-8
 
 
-bindkey -M viins '^g' atuin-search
-
-bindkey -M viins '^R' atuin-search
-bindkey -M viins '^P' atuin-up-search
-bindkey -M viins '^N' atuin-down-search
-
-. "$HOME/.atuin/bin/env"
-
-eval "$(atuin init zsh)"
-eval "$(atuin init zsh)"
-
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
-
 bindkey -v
 export KEYTIMEOUT=1
 
@@ -312,7 +242,6 @@ function zle-line-init() {
 
 zle -N zle-line-init
 
-# atuin key => anger library warrior city float north record service index regular sniff mobile dentist student author north office aisle giraffe urge bone evoke kind fragile
 export PATH=$PATH:$HOME/.local/bin
 export PATH=/Library/TeX/texbin:$PATH
 # export PATH=/Applications/Sublime Merge.app/Contents/MacOS/sublime_merge:$PATH
@@ -341,4 +270,5 @@ source "$HOME/.cargo/env"
 # Added by Antigravity
 export PATH="/Users/sheenazien8/.antigravity/antigravity/bin:$PATH"
 # export OLLAMA_HOST=https://ollama.com
-export OLLAMA_HOST=0.0.0.0:11435
+# export OLLAMA_HOST=0.0.0.0:11435
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"

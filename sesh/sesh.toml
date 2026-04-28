@@ -1,3 +1,4 @@
+# BPKP
 [[session]]
 name = "bpkb"
 path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
@@ -22,6 +23,8 @@ startup_script = "npm run build && npm run start"
 name = "bisma_old"
 path = "~/Documents/Code/my-project/bpkb/bisma_old"
 
+
+# AXIS
 [[session]]
 name = "axis"
 path = "~/Documents/Code/antikode/axis-mw"
@@ -38,6 +41,8 @@ name = "axis-cms"
 path = "~/Documents/Code/antikode/axis-cms"
 startup_script = "git checkout release && git pull origin release"
 
+
+# LAKASIR
 [[session]]
 name = "lakasir-project"
 path = "~/Documents/Code/lakasir-project/lakasir"
@@ -48,40 +53,43 @@ windows = ["lakasir_flutter"]
 name = "lakasir_flutter"
 path = "~/Documents/Code/lakasir-project/lakasir_flutter"
 
+
+# ANTIKODE
 [[session]]
 name = "antikode"
 path = "~/Documents/Code/antikode/agung-toyota-cms"
 startup_command = "update_tmux_window_name"
-windows = ["artotel-cms", "kahf-cms", "anticms-v3"]
+windows = ["artotel-cms", "kahf-cms", "anticms-v3", "compass-nfc"]
 
 [[window]]
 name = "artotel-cms"
 path = "~/Documents/Code/antikode/artotel-cms"
-startup_script = "git checkout release && git pull origin release"
 
 [[window]]
 name = "kahf-cms"
 path = "~/Documents/Code/antikode/kahf-cms"
-startup_script = "git checkout release && git pull origin release"
 
 [[window]]
 name = "anticms-v3"
 path = "~/Documents/Code/antikode/anticms-v3"
 
+[[window]]
+name = "compass-nfc"
+path = "~/Documents/Code/antikode/compass-nfc"
+
+
+# ASTRA
 [[session]]
 name = "astra"
 path = "~/Documents/Code/antikode/astra/astra-dashboard"
 startup_command = "update_tmux_window_name"
-windows = ["sia-penjurian", "sia-regis-api"]
+windows = ["sia-penjurian"]
 
 [[window]]
 name = "sia-penjurian"
 path = "~/Documents/Code/antikode/astra/sia-penjurian"
 
-[[window]]
-name = "sia-regis-api"
-path = "~/Documents/Code/antikode/astra/sia-regis-api"
-
+# FUN
 [[session]]
 name = "fun"
 path = "~/Documents/Code/dotfiles"
