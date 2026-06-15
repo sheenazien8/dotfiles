@@ -1,0 +1,25 @@
+{
+  "instructions": [
+    "AGENTS.md",
+    ".rules/*.md",
+    "rules/*.md",
+    "cursor/rules/*.md",
+    "~/.pi/agent/rules/*.md"
+  ],
+  "defaultModel": "MiniMax-M3",
+  "defaultProvider": "minimax",
+  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "0.79.3",
+  "packages": [
+    "npm:@ollama/pi-web-search",
+    "https://github.com/davebcn87/pi-autoresearch",
+    "npm:pi-mcp-adapter"
+  ],
+  "theme": "gruvbox",
+  "hideThinkingBlock": false,
+  "editorPaddingX": 1,
+  "showHardwareCursor": false,
+  "followUpMode": "all",
+  "enableSkillCommands": true,
+  "steeringMode": "one-at-a-time"
+}
