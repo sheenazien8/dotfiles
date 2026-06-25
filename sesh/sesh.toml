@@ -59,7 +59,7 @@ path = "~/Documents/Code/lakasir-project/lakasir_flutter"
 name = "antikode"
 path = "~/Documents/Code/antikode/agung-toyota-cms"
 startup_command = "update_tmux_window_name"
-windows = ["artotel-cms", "kahf-cms", "anticms-v3", "compass-nfc"]
+windows = ["artotel-cms", "kahf-cms", "anticms-v3", "compass-nfc", "drupal-decoupled-cms", "lightplus"]
 
 [[window]]
 name = "artotel-cms"
@@ -77,6 +77,13 @@ path = "~/Documents/Code/antikode/anticms-v3"
 name = "compass-nfc"
 path = "~/Documents/Code/antikode/compass-nfc"
 
+[[window]]
+name = "drupal-decoupled-cms"
+path = "~/Documents/Code/antikode/drupal-decoupled-cms"
+
+[[window]]
+name = "lightplus"
+path = "~/Documents/Code/antikode/lightplus"
 
 # ASTRA
 [[session]]

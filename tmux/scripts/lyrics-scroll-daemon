@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+import subprocess
+import time
+import os
+import json
+import urllib.request
+import urllib.parse
+import re
+import signal
+import sys
+
+STATE_DIR = os.path.expanduser("~/.cache/lyrics")
+CACHE_DIR = STATE_DIR
+OUTPUT_FILE = f"{STATE_DIR}/.scroll_text"
+PID_FILE = f"{STATE_DIR}/.scroll.pid"
+os.makedirs(STATE_DIR, exist_ok=True)
+
+open(PID_FILE, "w").write(str(os.getpid()))
+
+
+def cleanup(*_):
+    for f in (PID_FILE, OUTPUT_FILE):
+        if os.path.exists(f):
+            try:
+                os.remove(f)
+            except OSError:
+                pass
+    sys.exit(0)
+
+
+signal.signal(signal.SIGTERM, cleanup)
+signal.signal(signal.SIGINT, cleanup)
+
+OSASCRIPT_TRACK = """
+if application "Spotify" is running then
+    tell application "Spotify"
+        if player state is playing then
+            return artist of current track & "|" & name of current track
+        end if
+    end tell
+end if
+"""
+
+OSASCRIPT_POS = """
+if application "Spotify" is running then
+    tell application "Spotify"
+        if player state is playing then
+            return (player position as string) & "|" & (duration of current track as string)
+        else
+            return "paused"
+        end if
+    end tell
+end if
+return "none"
+"""
+
+LRC_RE = re.compile(r"\[(\d+):(\d+(?:\.\d+)?)\](.*)")
+
+
+def get_track():
+    try:
+        r = subprocess.run(
+            ["osascript", "-e", OSASCRIPT_TRACK],
+            capture_output=True, text=True, timeout=5
+        )
+        out = r.stdout.strip()
+        if "|" in out:
+            return out.split("|", 1)
+    except Exception:
+        pass
+    return None, None
+
+
+def get_position():
+    try:
+        r = subprocess.run(
+            ["osascript", "-e", OSASCRIPT_POS],
+            capture_output=True, text=True, timeout=5
+        )
+        out = r.stdout.strip()
+        if out == "paused" or out == "none" or "|" not in out:
+            return None
+        pos_s, dur_s = out.split("|", 1)
+        return float(pos_s), float(dur_s) / 1000.0
+    except Exception:
+        return None
+
+
+def fetch_lyrics(artist, title):
+    safe = re.sub(r"[^a-zA-Z0-9_-]", "_", f"{artist}-{title}")[:120]
+    cache = f"{CACHE_DIR}/{safe}.json"
+    if os.path.exists(cache) and (time.time() - os.path.getmtime(cache)) < 7 * 86400:
+        try:
+            with open(cache) as f:
+                return json.load(f)
+        except Exception:
+            pass
+
+    url = (
+        "https://lrclib.net/api/get?artist_name="
+        + urllib.parse.quote(artist)
+        + "&track_name="
+        + urllib.parse.quote(title)
+    )
+    try:
+        with urllib.request.urlopen(url, timeout=10) as r:
+            data = json.loads(r.read())
+    except Exception:
+        data = {}
+
+    result = {"synced": [], "plain": [], "mode": "plain"}
+
+    synced = data.get("syncedLyrics") or ""
+    if synced:
+        for line in synced.splitlines():
+            m = LRC_RE.match(line.strip())
+            if m:
+                minutes, seconds, text = m.groups()
+                t = int(minutes) * 60 + float(seconds)
+                text = text.strip()
+                if text:
+                    result["synced"].append([t, text])
+        if result["synced"]:
+            result["mode"] = "synced"
+
+    if not result["synced"]:
+        plain = data.get("plainLyrics") or ""
+        for line in plain.splitlines():
+            t = line.strip()
+            if t:
+                result["plain"].append(t)
+        if result["plain"]:
+            result["mode"] = "plain"
+
+    try:
+        with open(cache, "w") as f:
+            json.dump(result, f)
+    except Exception:
+        pass
+
+    return result
+
+
+def get_width():
+    try:
+        r = subprocess.run(
+            ["tmux", "display", "-p", "#{client_width}"],
+            capture_output=True, text=True, timeout=2
+        )
+        w = int(r.stdout.strip())
+        return w if 20 < w < 500 else 80
+    except Exception:
+        return 80
+
+
+def write_output(text):
+    tmp = OUTPUT_FILE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(text)
+    os.replace(tmp, OUTPUT_FILE)
+
+
+def find_synced_line(lines, position):
+    idx = 0
+    for i, (t, _text) in enumerate(lines):
+        if t <= position:
+            idx = i
+        else:
+            break
+    return idx
+
+
+def main():
+    track_key = None
+    lyrics = {"synced": [], "plain": [], "mode": "plain"}
+    line_idx = 0
+    offset = 0
+    width = 80
+    last_advance = time.time()
+    last_pos_query = 0.0
+    last_width_check = 0.0
+    cached_position = 0.0
+    plain_line_started = time.time()
+
+    SCROLL_DELAY = 0.30
+    SHORT_DWELL = 4.5
+    PAD = "    "
+    POS_QUERY_INTERVAL = 0.5
+
+    while True:
+        try:
+            now = time.time()
+            artist, title = get_track()
+
+            if not artist:
+                track_key = None
+                write_output("")
+                time.sleep(1)
+                continue
+
+            new_key = f"{artist}|{title}"
+            if new_key != track_key:
+                track_key = new_key
+                lyrics = fetch_lyrics(artist, title)
+                line_idx = 0
+                offset = 0
+                plain_line_started = now
+                last_advance = now
+                if not lyrics["synced"] and not lyrics["plain"]:
+                    write_output("")
+                    continue
+
+            if now - last_pos_query >= POS_QUERY_INTERVAL:
+                last_pos_query = now
+                pos = get_position()
+                if pos is None:
+                    cached_position = None
+                else:
+                    cached_position, _dur = pos
+
+            if cached_position is None:
+                write_output("")
+                time.sleep(0.5)
+                continue
+
+            if now - last_width_check > 5.0:
+                width = get_width()
+                last_width_check = now
+
+            visible_width = max(20, width - 2)
+
+            if lyrics["mode"] == "synced" and lyrics["synced"]:
+                new_idx = find_synced_line(lyrics["synced"], cached_position)
+                if new_idx != line_idx:
+                    line_idx = new_idx
+                    offset = 0
+                    last_advance = now
+                line = lyrics["synced"][line_idx][1]
+            else:
+                if not lyrics["plain"]:
+                    write_output("")
+                    time.sleep(0.5)
+                    continue
+                if now - plain_line_started > SHORT_DWELL:
+                    line_idx = (line_idx + 1) % len(lyrics["plain"])
+                    plain_line_started = now
+                    offset = 0
+                    last_advance = now
+                line = lyrics["plain"][line_idx]
+
+            if len(line) <= visible_width - 4:
+                visible = line
+            else:
+                buffer_text = line + PAD * 40
+                loop_end = len(line) + 4
+                if now - last_advance >= SCROLL_DELAY:
+                    offset += 1
+                    last_advance = now
+                    if offset >= loop_end:
+                        offset = 0
+                        if lyrics["mode"] == "plain":
+                            line_idx = (line_idx + 1) % len(lyrics["plain"])
+                            plain_line_started = now
+                            if line_idx < len(lyrics["plain"]):
+                                line = lyrics["plain"][line_idx]
+                                buffer_text = line + PAD * 40
+                                loop_end = len(line) + 4
+                visible = buffer_text[offset:offset + visible_width]
+                if len(visible) < visible_width:
+                    visible = visible + " " * (visible_width - len(visible))
+
+            write_output(visible)
+            time.sleep(0.2)
+
+        except KeyboardInterrupt:
+            cleanup()
+        except Exception as e:
+            sys.stderr.write(f"lyrics-scroll: {e}\n")
+            time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
