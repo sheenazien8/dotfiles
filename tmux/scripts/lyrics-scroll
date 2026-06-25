@@ -1,0 +1,38 @@
+#!/bin/bash
+pid_file="$HOME/.cache/lyrics/.scroll.pid"
+
+is_running() {
+    [ -f "$pid_file" ] && kill -0 "$(cat "$pid_file")" 2>/dev/null
+}
+
+case "${1:-status}" in
+    start)
+        if is_running; then
+            echo "already running (pid $(cat "$pid_file"))"
+        else
+            nohup ~/.local/bin/lyrics-scroll-daemon >/dev/null 2>&1 &
+            disown 2>/dev/null
+            sleep 0.3
+            is_running && echo "started (pid $(cat "$pid_file"))" || echo "failed to start"
+        fi
+        ;;
+    stop)
+        if is_running; then
+            kill "$(cat "$pid_file")" && echo "stopped"
+        else
+            echo "not running"
+        fi
+        ;;
+    restart)
+        "$0" stop
+        sleep 0.3
+        "$0" start
+        ;;
+    status)
+        is_running && echo "running (pid $(cat "$pid_file"))" || echo "not running"
+        ;;
+    *)
+        echo "usage: ${0##*/} {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
