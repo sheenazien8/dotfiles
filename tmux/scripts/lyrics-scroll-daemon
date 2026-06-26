@@ -9,6 +9,8 @@ import re
 import signal
 import sys
 
+PLATFORM = sys.platform  # 'darwin' for macOS, 'linux' for Linux
+
 STATE_DIR = os.path.expanduser("~/.cache/lyrics")
 CACHE_DIR = STATE_DIR
 OUTPUT_FILE = f"{STATE_DIR}/.scroll_text"
@@ -30,6 +32,8 @@ def cleanup(*_):
 
 signal.signal(signal.SIGTERM, cleanup)
 signal.signal(signal.SIGINT, cleanup)
+
+# ── macOS (AppleScript / Spotify) ──────────────────────────────────────────
 
 OSASCRIPT_TRACK = """
 if application "Spotify" is running then
@@ -54,10 +58,53 @@ end if
 return "none"
 """
 
+# ── Linux (playerctl / MPRIS) ───────────────────────────────────────────────
+# playerctl works with any MPRIS2-compatible player (Spotify, mpd, VLC, etc.).
+# By default we prefer "spotify" but fall back to whichever player is active.
+
+PLAYERCTL_PLAYER = os.environ.get("LYRICS_PLAYER", "spotify")
+
+
+def _playerctl(*args):
+    """Run playerctl with optional --player flag."""
+    base = ["playerctl", "-p", PLAYERCTL_PLAYER]
+    return subprocess.run(
+        base + list(args),
+        capture_output=True, text=True, timeout=5
+    )
+
+
+def _playerctl_fallback(*args):
+    """Try specific player first, then any MPRIS player."""
+    r = _playerctl(*args)
+    if r.returncode != 0:
+        # Fallback: let playerctl auto-detect the active player
+        r = subprocess.run(
+            ["playerctl"] + list(args),
+            capture_output=True, text=True, timeout=5
+        )
+    return r
+
 LRC_RE = re.compile(r"\[(\d+):(\d+(?:\.\d+)?)\](.*)")
 
 
+# ── Platform dispatch ────────────────────────────────────────────────────────
+
 def get_track():
+    if PLATFORM == "darwin":
+        return _get_track_macos()
+    return _get_track_linux()
+
+
+def get_position():
+    if PLATFORM == "darwin":
+        return _get_position_macos()
+    return _get_position_linux()
+
+
+# ── macOS implementations ────────────────────────────────────────────────────
+
+def _get_track_macos():
     try:
         r = subprocess.run(
             ["osascript", "-e", OSASCRIPT_TRACK],
@@ -71,7 +118,7 @@ def get_track():
     return None, None
 
 
-def get_position():
+def _get_position_macos():
     try:
         r = subprocess.run(
             ["osascript", "-e", OSASCRIPT_POS],
@@ -82,6 +129,42 @@ def get_position():
             return None
         pos_s, dur_s = out.split("|", 1)
         return float(pos_s), float(dur_s) / 1000.0
+    except Exception:
+        return None
+
+
+# ── Linux implementations ────────────────────────────────────────────────────
+
+def _get_track_linux():
+    try:
+        status = _playerctl("status")
+        if status.stdout.strip() != "Playing":
+            return None, None
+
+        artist = _playerctl_fallback("metadata", "artist").stdout.strip()
+        title = _playerctl_fallback("metadata", "title").stdout.strip()
+        if artist and title:
+            return artist, title
+    except Exception:
+        pass
+    return None, None
+
+
+def _get_position_linux():
+    try:
+        status = _playerctl("status")
+        if status.stdout.strip() != "Playing":
+            return None
+
+        pos_r = _playerctl_fallback("position")
+        pos = float(pos_r.stdout.strip())
+
+        dur_r = _playerctl_fallback("metadata", "mpris:length")
+        dur_us = dur_r.stdout.strip()
+        # mpris:length is in microseconds
+        duration = float(dur_us) / 1_000_000 if dur_us else 0
+
+        return pos, duration
     except Exception:
         return None
 
