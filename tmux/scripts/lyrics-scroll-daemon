@@ -86,16 +86,25 @@ def get_position():
         return None
 
 
-def fetch_lyrics(artist, title):
-    safe = re.sub(r"[^a-zA-Z0-9_-]", "_", f"{artist}-{title}")[:120]
-    cache = f"{CACHE_DIR}/{safe}.json"
-    if os.path.exists(cache) and (time.time() - os.path.getmtime(cache)) < 7 * 86400:
-        try:
-            with open(cache) as f:
-                return json.load(f)
-        except Exception:
-            pass
+def parse_lrc(lrc_text):
+    lines = []
+    for line in lrc_text.splitlines():
+        m = LRC_RE.match(line.strip())
+        if m:
+            minutes, seconds, text = m.groups()
+            t = int(minutes) * 60 + float(seconds)
+            text = text.strip()
+            if text:
+                lines.append([t, text])
+    return lines
 
+
+def parse_plain(plain_text):
+    return [l.strip() for l in plain_text.splitlines() if l.strip()]
+
+
+def fetch_lrclib_get(artist, title):
+    """Source 1: lrclib exact match."""
     url = (
         "https://lrclib.net/api/get?artist_name="
         + urllib.parse.quote(artist)
@@ -103,34 +112,132 @@ def fetch_lyrics(artist, title):
         + urllib.parse.quote(title)
     )
     try:
-        with urllib.request.urlopen(url, timeout=10) as r:
+        req = urllib.request.Request(url, headers={"User-Agent": "lyrics-scroll/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
             data = json.loads(r.read())
     except Exception:
-        data = {}
+        return None
 
-    result = {"synced": [], "plain": [], "mode": "plain"}
+    result = {"synced": [], "plain": [], "mode": "plain", "source": "lrclib"}
 
     synced = data.get("syncedLyrics") or ""
     if synced:
-        for line in synced.splitlines():
-            m = LRC_RE.match(line.strip())
-            if m:
-                minutes, seconds, text = m.groups()
-                t = int(minutes) * 60 + float(seconds)
-                text = text.strip()
-                if text:
-                    result["synced"].append([t, text])
+        result["synced"] = parse_lrc(synced)
         if result["synced"]:
             result["mode"] = "synced"
 
     if not result["synced"]:
         plain = data.get("plainLyrics") or ""
-        for line in plain.splitlines():
-            t = line.strip()
-            if t:
-                result["plain"].append(t)
-        if result["plain"]:
-            result["mode"] = "plain"
+        result["plain"] = parse_plain(plain)
+
+    if not result["synced"] and not result["plain"]:
+        return None
+    return result
+
+
+def fetch_lrclib_search(artist, title):
+    """Source 2: lrclib fuzzy search — picks best match preferring synced."""
+    query = f"{artist} {title}"
+    url = "https://lrclib.net/api/search?q=" + urllib.parse.quote(query)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "lyrics-scroll/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.loads(r.read())
+    except Exception:
+        return None
+
+    if not isinstance(data, list) or not data:
+        return None
+
+    best = None
+    best_score = -1
+
+    artist_lower = artist.lower().strip()
+    title_lower = title.lower().strip()
+
+    for r in data:
+        r_artist = (r.get("artistName") or "").lower().strip()
+        r_title = (r.get("trackName") or "").lower().strip()
+        has_synced = bool(r.get("syncedLyrics"))
+        has_plain = bool(r.get("plainLyrics"))
+
+        # Score: exact artist+title match + synced bonus
+        score = 0
+        if r_artist == artist_lower and r_title == title_lower:
+            score += 100
+        elif r_title == title_lower:
+            score += 50
+        elif r_artist == artist_lower:
+            score += 30
+
+        # Fuzzy: check if query terms appear
+        if artist_lower in r_artist or r_artist in artist_lower:
+            score += 20
+        if title_lower in r_title or r_title in title_lower:
+            score += 20
+
+        if has_synced:
+            score += 10
+        elif has_plain:
+            score += 5
+
+        if score > best_score:
+            best_score = score
+            best = r
+
+    if best is None or best_score < 10:
+        return None
+
+    result = {"synced": [], "plain": [], "mode": "plain", "source": "lrclib-search"}
+
+    synced = best.get("syncedLyrics") or ""
+    if synced:
+        result["synced"] = parse_lrc(synced)
+        if result["synced"]:
+            result["mode"] = "synced"
+
+    if not result["synced"]:
+        plain = best.get("plainLyrics") or ""
+        result["plain"] = parse_plain(plain)
+
+    if not result["synced"] and not result["plain"]:
+        return None
+    return result
+
+
+def fetch_lyrics(artist, title):
+    """Try multiple sources in order: exact match → fuzzy search."""
+    safe = re.sub(r"[^a-zA-Z0-9_-]", "_", f"{artist}-{title}")[:120]
+    cache = f"{CACHE_DIR}/{safe}.json"
+
+    # Check cache (7-day TTL)
+    if os.path.exists(cache) and (time.time() - os.path.getmtime(cache)) < 7 * 86400:
+        try:
+            with open(cache) as f:
+                cached = json.load(f)
+            if cached.get("synced") or cached.get("plain"):
+                return cached
+        except Exception:
+            pass
+
+    result = None
+
+    # Source 1: lrclib exact match
+    result = fetch_lrclib_get(artist, title)
+
+    # Source 2: lrclib fuzzy search (prefer synced over plain)
+    if result is None or (not result["synced"] and result["mode"] == "plain"):
+        search_result = fetch_lrclib_search(artist, title)
+        if search_result is not None:
+            # Prefer search result if it has synced when exact didn't
+            if search_result["synced"] and not result["synced"]:
+                result = search_result
+            elif result is None:
+                result = search_result
+
+    # If still no lyrics, cache empty to avoid re-fetching
+    if result is None:
+        result = {"synced": [], "plain": [], "mode": "plain", "source": "none"}
 
     try:
         with open(cache, "w") as f:
@@ -172,7 +279,7 @@ def find_synced_line(lines, position):
 
 def main():
     track_key = None
-    lyrics = {"synced": [], "plain": [], "mode": "plain"}
+    lyrics = {"synced": [], "plain": [], "mode": "plain", "source": "none"}
     line_idx = 0
     offset = 0
     width = 80
@@ -181,11 +288,13 @@ def main():
     last_width_check = 0.0
     cached_position = 0.0
     plain_line_started = time.time()
+    fetch_retries = 0
 
     SCROLL_DELAY = 0.30
     SHORT_DWELL = 4.5
     PAD = "    "
     POS_QUERY_INTERVAL = 0.5
+    RETRY_INTERVAL = 30  # retry fetch every 30s if no lyrics found
 
     while True:
         try:
@@ -206,9 +315,25 @@ def main():
                 offset = 0
                 plain_line_started = now
                 last_advance = now
+                fetch_retries = 0
                 if not lyrics["synced"] and not lyrics["plain"]:
                     write_output("")
-                    continue
+
+            # Retry fetch periodically if no lyrics found
+            if not lyrics["synced"] and not lyrics["plain"]:
+                fetch_retries += 1
+                if fetch_retries % int(RETRY_INTERVAL / 0.2) == 0:
+                    # Invalidate cache and retry
+                    safe = re.sub(r"[^a-zA-Z0-9_-]", "_", f"{artist}-{title}")[:120]
+                    cache = f"{CACHE_DIR}/{safe}.json"
+                    if os.path.exists(cache):
+                        os.remove(cache)
+                    lyrics = fetch_lyrics(artist, title)
+                    if lyrics["synced"] or lyrics["plain"]:
+                        fetch_retries = 0
+                write_output("")
+                time.sleep(0.2)
+                continue
 
             if now - last_pos_query >= POS_QUERY_INTERVAL:
                 last_pos_query = now
