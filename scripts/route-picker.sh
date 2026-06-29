@@ -4,6 +4,47 @@
 #   ./route-picker.sh route_list.json
 #   php artisan r:l --json | ./route-picker.sh
 
+# --- OS detection ---
+case "$(uname -s)" in
+  Darwin) OS="macos";;
+  Linux)  OS="linux";;
+  *)      OS="unknown";;
+esac
+
+# --- Clipboard helper ---
+clip_copy() {
+  local input
+  input=$(cat)
+  case "$OS" in
+    macos)  echo -n "$input" | pbcopy;;
+    linux)
+      if command -v xclip &>/dev/null; then
+        echo -n "$input" | xclip -selection clipboard
+      elif command -v xsel &>/dev/null; then
+        echo -n "$input" | xsel --clipboard --input
+      elif command -v wl-copy &>/dev/null; then
+        echo -n "$input" | wl-copy
+      else
+        echo -n "$input"  # fallback: just print to stdout
+      fi
+      ;;
+    *) echo -n "$input";;
+  esac
+}
+
+# --- Notification helper ---
+notify() {
+  local title="$1" body="$2"
+  case "$OS" in
+    macos)  osascript -e "display notification \"$body\" with title \"$title\"";;
+    linux)
+      if command -v notify-send &>/dev/null; then
+        notify-send "$title" "$body"
+      fi
+      ;;
+  esac
+}
+
 if [ -t 0 ] && [ -z "$1" ]; then
   echo "Usage: $0 route_list.json OR php artisan r:l --json | $0"
   exit 1
@@ -64,8 +105,8 @@ case "$KEY" in
   *)        echo "Cancelled."; exit 0 ;;
 esac
 
-echo -n "$TO_COPY" | pbcopy
-osascript -e "display notification \"Copied $KEY to clipboard\" with title \"Route Picker\""
+echo -n "$TO_COPY" | clip_copy
+notify "Route Picker" "Copied $KEY to clipboard"
 echo "✅ Copied ($KEY): $TO_COPY"
 
 
