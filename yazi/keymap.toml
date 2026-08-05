@@ -34,6 +34,7 @@ keymap = [
 	{ on = "G",          run = "arrow bot", desc = "Go to bottom" },
 
 	# Navigation
+	{ on = "-", run = "leave",    desc = "Back to previous directory" },
 	{ on = "h", run = "leave", desc = "Back to the parent directory" },
 	{ on = "l", run = "enter", desc = "Enter the child directory" },
 
@@ -62,8 +63,9 @@ keymap = [
 	# Operation
 	{ on = "o",         run = "open",                        desc = "Open selected files" },
 	{ on = "O",         run = "open --interactive",          desc = "Open selected files interactively" },
-	{ on = "<Enter>",   run = "open",                        desc = "Open selected files" },
+	{ on = "<Enter>",   run = "plugin smart-enter",          desc = "Enter directory or open file" },
 	{ on = "<S-Enter>", run = "open --interactive",          desc = "Open selected files interactively" },
+	{ on = "<C-n>",     run = "shell -- dragon -x -i -T -a $@", desc = "Drag selected files (or hovered) via dragon" },
 	{ on = "y",         run = "yank",                        desc = "Yank selected files (copy)" },
 	{ on = "x",         run = "yank --cut",                  desc = "Yank selected files (cut)" },
 	{ on = "p",         run = "paste",                       desc = "Paste yanked files" },
