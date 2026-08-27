@@ -1004,3 +1004,11 @@ conds = [
 ]
 
 # : }}}
+
+[git]
+added   = { fg = "#a6e3a1", icon = "+" }
+deleted = { fg = "#f38ba8", icon = "-" }
+modified = { fg = "#f9e2af", icon = "M" }
+untracked = { fg = "#94e2d5", icon = "?" }
+ignored = { fg = "#6c7086", icon = "!" }
+conflicted = { fg = "#eba0ac", icon = "C" }

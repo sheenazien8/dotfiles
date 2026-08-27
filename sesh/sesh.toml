@@ -85,19 +85,20 @@ path = "~/Documents/Code/antikode/drupal-decoupled-cms"
 name = "lightplus"
 path = "~/Documents/Code/antikode/lightplus"
 
-[[window]]
-name = "ubeatz-loyalty-api"
-path = "~/Documents/Code/antikode/ubeatz-loyalty-api"
-
-# ASTRA
+# UBEATZ
 [[session]]
 name = "ubeatz"
 path = "~/Documents/Code/antikode/ubeatz-loyalty-api"
 startup_command = "update_tmux_window_name"
-windows = ["ubeatz-loyalty"]
+windows = ["server", "ubeatz-loyalty-cms"]
 
 [[window]]
-name = "ubeatz-loyalty"
+name = "server"
+path = "~/Documents/Code/antikode/ubeatz-loyalty-api"
+startup_script = "air"
+
+[[window]]
+name = "ubeatz-loyalty-cms"
 path = "~/Documents/Code/antikode/ubeatz-loyalty"
 
 # ASTRA

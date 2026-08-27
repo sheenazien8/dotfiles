@@ -1,9 +1,38 @@
 ---
 name: creator-plan
-description: Create a plan base on the title and simple detail
+description: Create a structured task plan based on a title and brief details. Use this skill whenever the user wants to plan a task, create a todo, break down work, or organize implementation steps. Trigger when the user mentions planning, creating tasks, breaking down work, or asks for a roadmap for any feature, fix, or refactor.
 ---
-# Plan Prompt
-Create a detailed plan for a <given md file> with format like:
+
+# Plan Creator
+
+Create a detailed, actionable plan for a given task. Before writing the plan, assess whether you have enough context. If the task is ambiguous, complex, or missing key details, ask 2–3 concise clarifying questions first.
+
+## When to Ask Questions
+
+Ask questions **only** when one or more of these are true:
+- The task description is vague or could mean multiple things
+- You don't know the scope or boundaries of the work
+- Technical choices are unclear (stack, approach, constraints)
+- You don't know what "done" looks like
+- The task involves multiple systems/files and the user hasn't specified which
+
+## When NOT to Ask Questions
+
+If the task is straightforward and you have enough context, skip questions and create the plan immediately:
+- Simple, well-defined changes (e.g., "add a nullable email column to users table")
+- The user already provided clear files, approach, and scope
+- One-line fixes or obvious refactors
+
+## Question Guidelines
+
+- Ask **2–3 questions maximum** — keep it tight
+- Make questions specific and actionable, not open-ended
+- Focus on: scope, approach, constraints, or acceptance criteria
+- Don't ask about things you can reasonably infer or look up
+
+## Plan Format
+
+Once you have enough context, create the plan in this format:
 
 ```md
 # <task title>
@@ -19,7 +48,7 @@ Create a detailed plan for a <given md file> with format like:
 - Deep analyze the context base on the completed tasks
 
 ## Testing
-- 
+- how to verify the work
 
 ## Tools / Skills
 - mcp database / tools
@@ -29,38 +58,39 @@ Create a detailed plan for a <given md file> with format like:
 ```
 
 ## Rules
-### Created files
-sometime project has theese directory, please check it first and you will know where's the task directory should be created
-- todos/
-- todo/
-- task/
-- tasks/
 
-## Details
-### task title
-- the title is base on the given file
+### Task Title
+- Derive from the user's request or the referenced file
 
 ### Context
-- Context is the related file that give ai detail where, what, and how the given files
-- and give the detailed current condition if needed
+- Include relevant file paths using `@path/to/file`
+- Describe the current state of the codebase or relevant area
+- If a file is referenced, read it first to understand current state
 
 ### Goals
-- the thing that ai should be done
-- should be created, or changes
+- What needs to be created, changed, or fixed
+- Be specific and measurable
 
 ### Notes
-- notes is tell ai what ai need to be concern
+- Concerns, edge cases, or gotchas the implementer should know
+- Reference related tasks or patterns if relevant
 
 ### Testing
-- you can give ai information how need to do with testing, like using test feature, or curl if api, or playwright if need to test in browser
-- for playwright if needed, because playwright consumpt a lot of token
+- How to verify: feature tests, curl for APIs, Playwright for UI (only if needed — Playwright consumes a lot of tokens)
 
 ### Tools / Skills
-- what tools, mcp or skills that ai use
-- check the available skills or mcp
-- tools you can give the bash command if needed
+- List relevant MCP tools, skills, or bash commands that will help
+- Check available skills or MCPs before listing
 
 ### Implementation
-- don't create this first, just add `<!-- Write you've done in here -->`
-- this is only need to update when the ai done with their works, you don't need to create this
+- Leave as `<!-- Write you've done in here -->`
+- This section is updated by the agent doing the work, not during planning
 
+### Plan File Location
+Check for existing task directories in this order:
+- `todos/`
+- `todo/`
+- `task/`
+- `tasks/`
+
+Save the plan file there with a clear, kebab-case filename.
