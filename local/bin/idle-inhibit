@@ -1,0 +1,93 @@
+#!/bin/sh
+# idle-inhibit - jangan lock/matikan layar saat menonton video atau meeting.
+#
+# Inhibit aktif bila SALAH SATU:
+#   - window aktif fullscreen, ATAU
+#   - ada MPRIS player "Playing", ATAU
+#   - ada aplikasi yang merekam mikrofon (meeting / voice call), ATAU
+#   - ada aplikasi yang memakai kamera (video call)
+# Selain itu kembali ke perilaku normal: blank 5 menit, DPMS 10 menit.
+#
+# Aman: ada batas maksimum 6 jam inhibit berturut-turut (biar layar tidak
+# terbuka tanpa batas kalau ada sinyal nyangkut).
+export DISPLAY="${DISPLAY:-:0}"
+
+POLL=5
+MAX_INHIBIT=21600   # 6 jam
+inhibit_started=0
+capped=0
+
+log() { logger -t idle-inhibit "$1" 2>/dev/null || true; }
+
+set_inhibit() {
+  xset s off
+  xset -dpms
+  inhibit_started=$(date +%s)
+  log "inhibit ON (layar tidak akan terkunci)"
+}
+
+set_normal() {
+  xset s 300 300
+  xset s blank
+  xset dpms 600 600 600
+  inhibit_started=0
+  log "inhibit OFF (auto-lock normal aktif)"
+}
+
+active_fullscreen() {
+  command -v xdotool >/dev/null 2>&1 || return 1
+  _wid=$(xdotool getactivewindow 2>/dev/null) || return 1
+  [ -n "$_wid" ] || return 1
+  xprop -id "$_wid" _NET_WM_STATE 2>/dev/null | grep -q '_NET_WM_STATE_FULLSCREEN'
+}
+
+mpris_playing() {
+  command -v playerctl >/dev/null 2>&1 || return 1
+  [ "$(playerctl status 2>/dev/null)" = "Playing" ]
+}
+
+# Ada aplikasi yang merekam microphone (meeting / voice call).
+# pactl menampilkan satu entri per source-output (= stream yang capture audio).
+mic_in_use() {
+  command -v pactl >/dev/null 2>&1 || return 1
+  [ "$(pactl list short source-outputs 2>/dev/null | wc -l)" -gt 0 ]
+}
+
+# Ada aplikasi yang memakai kamera (video call).
+camera_in_use() {
+  command -v fuser >/dev/null 2>&1 || return 1
+  for dev in /dev/video*; do
+    [ -e "$dev" ] || continue
+    if [ -n "$(fuser "$dev" 2>/dev/null)" ]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# mulai dari state normal
+set_normal
+
+while :; do
+  if active_fullscreen || mpris_playing || mic_in_use || camera_in_use; then
+    if [ "$capped" = 0 ]; then
+      if [ "$inhibit_started" = 0 ]; then
+        set_inhibit
+      else
+        xset s off
+        xset -dpms
+        if [ $(( $(date +%s) - inhibit_started )) -gt "$MAX_INHIBIT" ]; then
+          set_normal
+          capped=1
+          log "batas 6 jam tercapai, auto-lock diaktifkan sampai media berhenti"
+        fi
+      fi
+    fi
+  else
+    if [ "$inhibit_started" != 0 ]; then
+      set_normal
+    fi
+    capped=0
+  fi
+  sleep "$POLL"
+done

@@ -1,0 +1,13 @@
+[Unit]
+Description=KDE Connect Daemon
+After=dbus.service
+
+[Service]
+Type=simple
+Environment=QT_QPA_PLATFORM=offscreen
+ExecStart=/usr/lib/x86_64-linux-gnu/libexec/kdeconnectd
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
