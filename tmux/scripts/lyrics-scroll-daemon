@@ -60,25 +60,49 @@ return "none"
 
 # ── Linux (playerctl / MPRIS) ───────────────────────────────────────────────
 # playerctl works with any MPRIS2-compatible player (Spotify, mpd, VLC, etc.).
-# By default we prefer "spotify" but fall back to whichever player is active.
+# The playing player is detected automatically; override with LYRICS_PLAYER.
 
-PLAYERCTL_PLAYER = os.environ.get("LYRICS_PLAYER", "spotify")
+PLAYERCTL_PLAYER = os.environ.get("LYRICS_PLAYER", "")  # empty = auto-detect
+
+
+def _playerctl_cmd():
+    """Resolve which MPRIS player to query.
+
+    An explicit LYRICS_PLAYER wins. Otherwise pick the first player whose
+    status is Playing: bare `playerctl` grabs whichever player sorts first
+    (e.g. a paused Firefox tab) instead of the one actually sounding, which is
+    what phone audio over scrcpy / KDE Connect looks like.
+    """
+    if PLAYERCTL_PLAYER:
+        return ["playerctl", "-p", PLAYERCTL_PLAYER]
+    try:
+        listed = subprocess.run(
+            ["playerctl", "-l"], capture_output=True, text=True, timeout=5
+        )
+        for name in listed.stdout.split():
+            status = subprocess.run(
+                ["playerctl", "-p", name, "status"],
+                capture_output=True, text=True, timeout=5
+            )
+            if status.stdout.strip() == "Playing":
+                return ["playerctl", "-p", name]
+    except Exception:
+        pass
+    return ["playerctl"]
 
 
 def _playerctl(*args):
-    """Run playerctl with optional --player flag."""
-    base = ["playerctl", "-p", PLAYERCTL_PLAYER]
+    """Run playerctl against the resolved player."""
     return subprocess.run(
-        base + list(args),
+        _playerctl_cmd() + list(args),
         capture_output=True, text=True, timeout=5
     )
 
 
 def _playerctl_fallback(*args):
-    """Try specific player first, then any MPRIS player."""
+    """Run against the resolved player, then any player as a last resort."""
     r = _playerctl(*args)
     if r.returncode != 0:
-        # Fallback: let playerctl auto-detect the active player
         r = subprocess.run(
             ["playerctl"] + list(args),
             capture_output=True, text=True, timeout=5

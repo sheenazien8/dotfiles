@@ -6,6 +6,14 @@
 export XDG_CURRENT_DESKTOP=i3
 export GTK_USE_PORTAL=1
 
+# Session D-Bus. systemd already owns /run/user/$UID/bus but does not export the
+# address into processes started by this script, so every app launched from i3
+# (Lark, terminals) ended up with no bus at all. Without it, gio/xdg-open cannot
+# reach the desktop portal and silently falls back to a text browser — which is
+# why clicking a link did nothing.
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
+
 # GTK/Qt dark mode
 export GTK_THEME=Adwaita-dark
 export QT_STYLE_OVERRIDE=Adwaita-Dark
@@ -35,15 +43,15 @@ dunst &
 # Bluetooth applet (tray icon for pairing)
 # blueman-applet &
 
-# Screen blanking: dim after 5min, lock after 10min.
+# Screen blanking: lock after 5min (xfce4-screensaver), DPMS off after 10min.
 # idle-inhibit menonaktifkan sementara saat fullscreen / media playing,
 # lalu mengembalikannya saat berhenti (lihat ~/.local/bin/idle-inhibit).
-xset s 300 300
-xset s blank
+# X blanking dimatikan: xfce4-screensaver yang pegang idle detection.
+xset s off
 xset dpms 600 600 600
 
-# Auto-lock on screensaver
-xss-lock -- ~/.local/bin/lockscreen &
+# Screensaver + locker (avatar, nama, password entry)
+xfce4-screensaver &
 
 # Jangan lock saat menonton video (fullscreen / MPRIS playing)
 ~/.local/bin/idle-inhibit &

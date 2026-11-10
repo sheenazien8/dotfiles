@@ -20,15 +20,21 @@ capped=0
 log() { logger -t idle-inhibit "$1" 2>/dev/null || true; }
 
 set_inhibit() {
-  xset s off
   xset -dpms
   inhibit_started=$(date +%s)
   log "inhibit ON (layar tidak akan terkunci)"
 }
 
+# Reset idle timer tiap putaran. Cara paling andal di xfce4-screensaver:
+# poke (SimulateUserActivity) jauh lebih stabil daripada D-Bus Inhibit,
+# yang bisa hilang diam-diam saat proses screensaver restart.
+idle_inhibit_now() {
+  xfce4-screensaver-command -p >/dev/null 2>&1
+}
+
 set_normal() {
-  xset s 300 300
-  xset s blank
+  # X server blanking tetap mati; idle detection hanya lewat screensaver.
+  xset s off
   xset dpms 600 600 600
   inhibit_started=0
   log "inhibit OFF (auto-lock normal aktif)"
@@ -74,8 +80,8 @@ while :; do
       if [ "$inhibit_started" = 0 ]; then
         set_inhibit
       else
-        xset s off
         xset -dpms
+        idle_inhibit_now
         if [ $(( $(date +%s) - inhibit_started )) -gt "$MAX_INHIBIT" ]; then
           set_normal
           capped=1

@@ -6,6 +6,7 @@ draw_bold_text_with_bright_colors = true
 
 [cursor]
 style = "Beam"
+unfocused_hollow = true
 
 # [env]
 # TERM = "screen-256color"
@@ -25,6 +26,8 @@ hide_when_typing = false
 # program = "/bin/zsh"
 
 [window]
+# macOS only: make Option act as Alt/Meta so alt+<key> reaches the terminal app.
+option_as_alt = "Both"
 # decorations = "Buttonless"
 dynamic_title = false
 # gtk_theme_variant = "dark"

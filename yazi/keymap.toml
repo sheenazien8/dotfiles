@@ -65,7 +65,7 @@ keymap = [
 	{ on = "O",         run = "open --interactive",          desc = "Open selected files interactively" },
 	{ on = "<Enter>",   run = "plugin smart-enter",          desc = "Enter directory or open file" },
 	{ on = "<S-Enter>", run = "open --interactive",          desc = "Open selected files interactively" },
-	{ on = "<C-n>",     run = "shell -- dragon -x -i -T -a $@", desc = "Drag selected files (or hovered) via dragon" },
+	{ on = "<C-n>",     run = "shell -- dragon -x -i -T -a %s", desc = "Drag selected files (or hovered) via dragon" },
 	{ on = "y",         run = "yank",                        desc = "Yank selected files (copy)" },
 	{ on = "x",         run = "yank --cut",                  desc = "Yank selected files (cut)" },
 	{ on = "p",         run = "paste",                       desc = "Paste yanked files" },
@@ -78,6 +78,7 @@ keymap = [
 	{ on = "d",         run = "remove",                      desc = "Trash selected files" },
 	{ on = "D",         run = "remove --permanently",        desc = "Permanently delete selected files" },
 	{ on = "a",         run = "create",                      desc = "Create a file (ends with / for directories)" },
+	{ on = "A",         run = "plugin context-menu",           desc = "Open context menu (file actions)" },
 	{ on = "r",         run = "rename --cursor=before_ext",  desc = "Rename selected file(s)" },
 	{ on = ";",         run = "shell --interactive",         desc = "Run a shell command" },
 	{ on = ":",         run = "shell --block --interactive", desc = "Run a shell command (block until finishes)" },
@@ -132,7 +133,9 @@ keymap = [
 	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go ~/.config" },
 	{ on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go ~/Downloads" },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Jump interactively" },
-	{ on = [ "i", "d" ],     run = "shell --block --confirm 'sudo apt install -y \"$@\"'", desc = "Install selected .deb packages" },
+	{ on = [ "i", "d" ],     run = "shell --block --confirm 'sudo apt install -y %s'", desc = "Install selected .deb packages" },
+	{ on = [ "i", "a" ],     run = "shell --block --confirm '~/.config/yazi/install-appimage.sh %s'", desc = "Install selected AppImages" },
+	{ on = [ "i", "f" ],     run = "shell --block --confirm 'flatpak install --user -y %s'", desc = "Install selected Flatpak refs" },
 	{ on = [ "g", "f" ],       run = "follow",           desc = "Follow hovered symlink" },
 
 	# Tabs

@@ -54,6 +54,15 @@ reveal = [
 extract = [
 	{ run = "ya pub extract --list %s", desc = "Extract here" },
 ]
+install_appimage = [
+	{ run = "~/.config/yazi/install-appimage.sh %s1", desc = "Install AppImage", for = "linux", block = true },
+]
+install_flatpak = [
+	{ run = "flatpak install --user -y %s1", desc = "Install Flatpak", for = "linux", block = true },
+]
+render = [
+	{ run = "gomd %s1", desc = "Render in browser (gomd)", for = "unix", orphan = true },
+]
 download = [
 	{ run = "ya emit download --open %S", desc = "Download and open" },
 	{ run = "ya emit download %S",        desc = "Download" },
@@ -61,10 +70,16 @@ download = [
 
 [open]
 rules = [
+	# AppImage
+	{ url = "*.{AppImage,appimage}", use = [ "install_appimage", "open", "reveal" ] },
+	# Flatpak
+	{ url = "*.{flatpak,flatpakref,flatpakrepo}", use = [ "install_flatpak", "reveal" ] },
 	# Folder
 	{ url = "*/", use = [ "edit", "open", "reveal" ] },
+	# Markdown
+	{ url = "*.{md,markdown,mdx}", use = [ "render", "edit", "open", "reveal" ] },
 	# Text
-	{ mime = "text/*", use = [ "edit", "reveal" ] },
+	{ mime = "text/*", use = [ "edit", "open", "reveal" ] },
 	# Image
 	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
@@ -137,6 +152,10 @@ preloaders = [
 ]
 previewers = [
 	{ url = "*/", run = "folder" },
+	# HTML (rendered via lynx)
+	{ url = "*.{html,htm,xhtml}", run = 'piper -- lynx -dump -nolist -width="$w" -display_charset=utf-8 "$1"' },
+	# Markdown (highlighted via batcat; ponytail: no real render, swap to glow for prettier)
+	{ url = "*.{md,markdown,mdx}", run = 'piper -- batcat -ppf --wrap=character --terminal-width="$w" "$1"' },
 	# Code
 	{ mime = "text/*", run = "code" },
 	{ mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },

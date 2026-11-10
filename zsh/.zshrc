@@ -24,6 +24,15 @@ function switch-php() {
     valet stop; sudo update-alternatives --set php /usr/bin/php$1; rm -f ~/.valet/valet.sock; valet install; valet use $1;
 }
 
+function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+
 httpgrep() {
   local selected key cmd
 

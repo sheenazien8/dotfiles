@@ -1,5 +1,9 @@
 #!/bin/bash
-output=$(osascript -e '
+# Now-playing line for tmux status bar.
+# macOS: AppleScript/Spotify. Linux: playerctl (MPRIS2).
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  output=$(osascript -e '
 if application "Spotify" is running then
   tell application "Spotify"
     if player state is playing then
@@ -8,5 +12,24 @@ if application "Spotify" is running then
   end tell
 end if
 ')
-[ -n "$output" ] && echo "$output"
+  [ -n "$output" ] && echo "$output"
+  exit 0
+fi
 
+command -v playerctl >/dev/null 2>&1 || exit 0
+
+# Prefer an explicitly configured player, else the first one actually playing.
+player="${LYRICS_PLAYER:-}"
+if [ -z "$player" ]; then
+  player=$(playerctl -l 2>/dev/null | while read -r p; do
+    [ "$(playerctl -p "$p" status 2>/dev/null)" = "Playing" ] && { echo "$p"; break; }
+  done)
+fi
+
+[ -z "$player" ] && exit 0
+
+line=$(playerctl -p "$player" metadata --format '{{artist}} - {{title}}' 2>/dev/null)
+case "$line" in
+  ""|" - ") exit 0 ;;
+esac
+echo "$line"

@@ -7,7 +7,6 @@ windows = ["docs", "database", "bisma_fe", "bisma_old"]
 
 [[window]]
 name = "docs"
-startup_script = "make dev"
 path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 
 [[window]]
@@ -17,7 +16,6 @@ path = "~/Documents/Code/my-project/bpkb/bisma_be_dev"
 [[window]]
 name = "bisma_fe"
 path = "~/Documents/Code/my-project/bpkb/bisma_fe"
-startup_script = "npm run build && npm run start"
 
 [[window]]
 name = "bisma_old"
@@ -34,12 +32,25 @@ windows = ["server", "axis-cms"]
 [[window]]
 name = "server"
 path = "~/Documents/Code/antikode/axis-mw"
-startup_script = "make dev"
 
 [[window]]
 name = "axis-cms"
 path = "~/Documents/Code/antikode/axis-cms"
-startup_script = "git checkout release && git pull origin release"
+
+# XLABS
+[[session]]
+name = "xlabs"
+path = "~/Documents/Code/antikode/xlab-mw"
+startup_command = "update_tmux_window_name"
+windows = ["xlab-server", "xlab-cms"]
+
+[[window]]
+name = "xlab-server"
+path = "~/Documents/Code/antikode/xlab-mw"
+
+[[window]]
+name = "xlab-cms"
+path = "~/Documents/Code/antikode/xlabs-cms"
 
 
 # LAKASIR
@@ -90,16 +101,30 @@ path = "~/Documents/Code/antikode/lightplus"
 name = "ubeatz"
 path = "~/Documents/Code/antikode/ubeatz-loyalty-api"
 startup_command = "update_tmux_window_name"
-windows = ["server", "ubeatz-loyalty-cms"]
+windows = ["server-ubeatz", "ubeatz-loyalty-cms"]
 
 [[window]]
-name = "server"
+name = "server-ubeatz"
 path = "~/Documents/Code/antikode/ubeatz-loyalty-api"
-startup_script = "air"
 
 [[window]]
 name = "ubeatz-loyalty-cms"
 path = "~/Documents/Code/antikode/ubeatz-loyalty"
+
+# YAMAHA
+[[session]]
+name = "yamaha"
+path = "~/Documents/Code/antikode/yamaha-golang-api"
+startup_command = "update_tmux_window_name"
+windows = ["yamaha-server", "yamaha-cms"]
+
+[[window]]
+name = "yamaha-server"
+path = "~/Documents/Code/antikode/yamaha-golang-api"
+
+[[window]]
+name = "yamaha-cms"
+path = "~/Documents/Code/antikode/yamaha-cms"
 
 # ASTRA
 [[session]]
@@ -117,3 +142,25 @@ path = "~/Documents/Code/antikode/astra/sia-penjurian"
 name = "fun"
 path = "~/Documents/Code/dotfiles"
 startup_command = "update_tmux_window_name"
+
+# galaplate
+[[session]]
+name = "galaplate"
+path = "~/Documents/Code/my-project/galaplate-project/galaplate"
+startup_command = "update_tmux_window_name"
+windows = ["galaplate-core"]
+
+[[window]]
+name = "galaplate-core"
+path = "~/Documents/Code/my-project/galaplate-project/core"
+
+# Dwave
+[[session]]
+name = "dwave"
+path = "~/Documents/Code/dwave/dewave-kpi"
+startup_command = "update_tmux_window_name"
+windows = ["dwave-pos"]
+
+[[window]]
+name = "dwave-pos"
+path = "~/Documents/Code/dwave/dewave-pos"

@@ -3,6 +3,15 @@
     "shift+enter",
     "ctrl+n",
     "ctrl+enter"
-  ]
+  ],
+  "tui.altScreen.lineUp": ["alt+k", "ctrl+shift+k"],
+  "tui.altScreen.lineDown": ["alt+j", "ctrl+shift+j"],
+  "tui.altScreen.halfPageUp": ["alt+shift+k"],
+  "tui.altScreen.halfPageDown": ["alt+shift+j"],
+  "tui.altScreen.search": ["ctrl+shift+f"],
+  "app.model.select": ["alt+m"],
+  "app.tools.expand": "alt+o",
+  "extension.transcriptEditor": ["alt+v", "f4"],
+  "extension.scrollMode": ["ctrl+o", "f3"]
 }
 

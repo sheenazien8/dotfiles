@@ -4,6 +4,7 @@
 - Don't write code unless explicitly requested by the user
 - Only generate code when user asks for implementation
 - Never assume what code needs to be written
+- Please always use english for creating the code, don't use bahasa indonesia, even prompt is bahasa indonesia
 
 ## Simplicity
 - Keep all solutions simple and straightforward
@@ -22,6 +23,7 @@
 - Focus on what was requested
 - Don't explain obvious things
 - Ask clarifying questions if requirements are unclear
+- **ALWAYS use the `question` tool when presenting options to the user** — never list options as plain text and ask the user to type their choice manually
 
 ## Skils
 - please read all of the available skill, and use that if you need that
