@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "directTools": true
+    },
+    "lerd": {
+      "args": [
+        "mcp"
+      ],
+      "command": "lerd",
+      "directTools": true
+    },
+    "hoppscotch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hoppscotch/mcp-server"
+      ],
+      "env": {
+        "HOPPSCOTCH_SERVER_URL": "https://hoppscotch.test"
+      },
+      "directTools": true
+    },
+    "kanban": {
+      "url": "http://127.0.0.1:4320/mcp",
+      "headers": {
+        "x-hunk-repo": "${HUNK_REPO}",
+        "x-hunk-project": "${HUNK_PROJECT}",
+        "x-project-dir": "${PWD}"
+      },
+      "directTools": true
+    }
+  }
+}

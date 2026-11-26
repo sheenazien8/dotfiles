@@ -4,22 +4,31 @@
     ".rules/*.md",
     "rules/*.md",
     "cursor/rules/*.md",
-    "~/.pi/agent/rules/*.md"
+    "~/.pi/agent/rules/*.md",
+    "~/.pi/agent/AGENTS.md"
   ],
-  "defaultModel": "kimi-k2.6:cloud",
-  "defaultProvider": "ollama",
-  "defaultThinkingLevel": "high",
-  "lastChangelogVersion": "0.84.2",
+  "defaultModel": "ollama/deepseek-v4.1-flash:cloud",
+  "defaultProvider": "sheenazien",
+  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "1.6.1",
   "packages": [
     "npm:@ollama/pi-web-search",
     "npm:pi-mcp-adapter",
-    "npm:pai-acp"
+    "npm:pi-init",
+    "npm:@fradser/pi-memory"
   ],
   "theme": "gruvbox",
   "hideThinkingBlock": false,
   "editorPaddingX": 1,
-  "showHardwareCursor": false,
+  "showHardwareCursor": true,
   "followUpMode": "all",
   "enableSkillCommands": true,
-  "steeringMode": "one-at-a-time"
+  "steeringMode": "one-at-a-time",
+  "tuiMode": "fullscreen",
+  "extensions": [
+    "-builtin:mcp"
+  ],
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:pi-mcp-adapter\",\"scope\":\"user\"}": "7.0.1"
+  }
 }

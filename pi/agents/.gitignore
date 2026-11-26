@@ -1,0 +1,9 @@
+# never commit credentials
+auth.json
+provider-keys.json
+models-store.json
+mcp-cache.json
+trust.json
+sessions/
+*.back
+*.bak*

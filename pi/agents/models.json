@@ -1,0 +1,189 @@
+{
+  "providers": {
+    "sheenazien": {
+      "api": "openai-completions",
+      "baseUrl": "http://localhost:20128/v1",
+      "apiKey": "$SHEENA_9_ROUTER_KEY",
+      "models": [
+        {
+          "id": "Planning",
+          "name": "Planning",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "Coding",
+          "name": "Coding",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/gpt-oss:120b",
+          "name": "GPT-OSS 120B",
+          "contextWindow": 128000,
+          "input": [
+            "text"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/minimax-m3",
+          "name": "MiniMax M3",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/deepseek-v4.1-flash:cloud",
+          "name": "DeepSeek V4.1 Flash",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/mistral-large-4:cloud",
+          "name": "Mistral Large 4",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/kimi-k2.7-code:cloud",
+          "name": "Kimi K2.7 Code",
+          "contextWindow": 262144,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/kimi-k2.6:cloud",
+          "name": "Kimi K2.6",
+          "contextWindow": 262144,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/glm-5.3:cloud",
+          "name": "Glm 5.3",
+          "contextWindow": 262144,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/glm-5.3-flash:cloud",
+          "name": "Glm 5.3 Flash",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/nemotron-3-ultra:cloud",
+          "name": "Nemotron 3 Ultra",
+          "contextWindow": 128000,
+          "input": [
+            "text"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "ollama/gemma4:31b-cloud",
+          "name": "Gemma 4 31B",
+          "contextWindow": 128000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": false
+        },
+        {
+          "id": "cc/claude-opus-5-5",
+          "name": "Claude Opus 5.5",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "cc/claude-opus-5",
+          "name": "Claude Opus 5",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "cc/claude-fable-5-1",
+          "name": "Claude Fable 5.1",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "cc/claude-fable-5",
+          "name": "Claude Fable 5",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "cc/claude-sonnet-5",
+          "name": "Claude Sonnet 5",
+          "contextWindow": 1000000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        },
+        {
+          "id": "cc/claude-haiku-4-5-20251001",
+          "name": "Claude Haiku 4.5",
+          "contextWindow": 200000,
+          "input": [
+            "text",
+            "image"
+          ],
+          "reasoning": true
+        }
+      ]
+    }
+  }
+}
